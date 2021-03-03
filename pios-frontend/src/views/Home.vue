@@ -1,33 +1,31 @@
 <template>
   <v-row>
     <v-col>
-      <v-sheet height="800">
-        <v-calendar
-          class="rounded-xl calendar"
-          ref="calendar"
-          v-model="value"
-          color="primary"
-          type="week"
-          :events="events"
-          :event-color="getEventColor"
-          :event-ripple="false"
-          @change="getEvents"
-          @mousedown:event="startDrag"
-          @mousedown:time="startTime"
-          @mousemove:time="mouseMove"
-          @mouseup:time="endDrag"
-          @mouseleave.native="cancelDrag"
-        >
-          <template v-slot:event="{ event, timed, eventSummary }">
-            <div class="v-event-draggable" v-html="eventSummary()"></div>
-            <div
-              v-if="timed"
-              class="v-event-drag-bottom"
-              @mousedown.stop="extendBottom(event)"
-            ></div>
-          </template>
-        </v-calendar>
-      </v-sheet>
+      <v-calendar
+        class="rounded-lg calendar"
+        ref="calendar"
+        v-model="value"
+        color="primary"
+        type="week"
+        :events="events"
+        :event-color="getEventColor"
+        :event-ripple="false"
+        @change="getEvents"
+        @mousedown:event="startDrag"
+        @mousedown:time="startTime"
+        @mousemove:time="mouseMove"
+        @mouseup:time="endDrag"
+        @mouseleave.native="cancelDrag"
+      >
+        <template v-slot:event="{ event, timed, eventSummary }">
+          <div class="v-event-draggable" v-html="eventSummary()"></div>
+          <div
+            v-if="timed"
+            class="v-event-drag-bottom"
+            @mousedown.stop="extendBottom(event)"
+          ></div>
+        </template>
+      </v-calendar>
     </v-col>
   </v-row>
 </template>

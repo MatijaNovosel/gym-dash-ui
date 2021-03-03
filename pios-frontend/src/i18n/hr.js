@@ -1,7 +1,5 @@
 export default {
   hr: {
-    message: {
-      hello: 'Hello world'
-    }
+    hello: 'Hello world'
   }
 }

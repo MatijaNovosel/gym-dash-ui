@@ -1,7 +1,5 @@
 export default {
   en: {
-    message: {
-      hello: 'Hello world'
-    }
+    hello: 'Hello world'
   }
 }

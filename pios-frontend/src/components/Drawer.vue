@@ -8,6 +8,9 @@
   >
     <v-list>
       <v-list-item>
+        <v-avatar size="40" color="primary" class="mr-3">
+          <span class="white--text">{{ initials(user.username) }}</span>
+        </v-avatar>
         <v-list-item-content>
           <v-list-item-title class="title">
             {{ user.username }}
@@ -47,6 +50,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import routeNames from "../router/routeNames";
+import { initials } from "../helpers/index";
 
 export default {
   name: "drawer",
@@ -58,6 +62,7 @@ export default {
   },
   methods: {
     ...mapActions(["setUser"]),
+    initials,
     logOut() {
       this.setUser({
         id: null,

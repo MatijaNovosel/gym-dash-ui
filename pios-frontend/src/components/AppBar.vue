@@ -1,7 +1,8 @@
 <template>
   <v-app-bar app class="white black--text elevation-1" clipped-left>
     <v-app-bar-nav-icon @click="$emit('toggle-drawer')" />
-    <span>Gym aplikacija</span>
+    <v-icon class="mr-3">mdi-weight-lifter</v-icon>
+    <span>GymDash</span>
     <v-spacer />
     <span>v{{ appVersion }}</span>
   </v-app-bar>

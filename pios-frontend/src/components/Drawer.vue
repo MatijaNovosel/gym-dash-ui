@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import routeNames from "../router/routeNames";
 
 export default {
@@ -57,8 +57,14 @@ export default {
     ...mapGetters(["user"])
   },
   methods: {
+    ...mapActions(["setUser"]),
     logOut() {
-      // Remove user instance here
+      this.setUser({
+        id: null,
+        username: null,
+        email: null,
+        token: null
+      });
       this.$router.push({ name: "login" });
     }
   },

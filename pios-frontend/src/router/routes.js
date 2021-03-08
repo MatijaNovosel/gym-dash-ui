@@ -8,22 +8,34 @@ const routes = [
   {
     path: '/',
     name: routeNames.HOME,
-    component: Home
+    component: Home,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/membership',
     name: routeNames.MEMBERSHIP,
-    component: Membership
+    component: Membership,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/login',
     name: routeNames.LOGIN,
-    component: Login
+    component: Login,
+    meta: {
+      guest: true
+    }
   },
   {
     path: '/register',
     name: routeNames.REGISTER,
-    component: Register
+    component: Register,
+    meta: {
+      guest: true
+    }
   }
 ]
 

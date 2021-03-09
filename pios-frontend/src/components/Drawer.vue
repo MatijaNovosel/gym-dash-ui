@@ -1,10 +1,10 @@
 <template>
   <v-navigation-drawer
-    v-model="value"
+    v-model="drawerOpen"
     app
     clipped
-    disable-resize-watcher
     class="elevation-3 grey lighten-3"
+    @input="inputChanged"
   >
     <v-list>
       <v-list-item>
@@ -63,6 +63,10 @@ export default {
   methods: {
     ...mapActions(["setUser"]),
     initials,
+    inputChanged(val) {
+      this.drawerOpen = val;
+      this.$emit("input", val);
+    },
     logOut() {
       this.setUser({
         id: null,
@@ -74,7 +78,13 @@ export default {
       this.$router.push({ name: "login" });
     }
   },
+  watch: {
+    value(val) {
+      this.drawerOpen = val;
+    }
+  },
   data: () => ({
+    drawerOpen: false,
     items: [
       {
         text: "Home",

@@ -1,5 +1,7 @@
 export default {
   hr: {
-    hello: 'Hello world'
+    hello: "Hello world",
+    usernameOrEmail: "Korisničko ime ili lozinka",
+    password: "Lozinka"
   }
 }

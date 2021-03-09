@@ -1,5 +1,7 @@
 export default {
   en: {
-    hello: 'Hello world'
+    hello: "Hello world",
+    usernameOrEmail: "Username or email",
+    password: "Password"
   }
 }

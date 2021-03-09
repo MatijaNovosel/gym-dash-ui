@@ -5,7 +5,7 @@
       <app-bar @toggle-drawer="drawer = !drawer" />
     </template>
     <v-main>
-      <v-container>
+      <v-container :class="{ 'pa-0': !shouldShowUi }">
         <router-view />
       </v-container>
     </v-main>

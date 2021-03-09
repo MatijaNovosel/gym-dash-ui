@@ -70,6 +70,7 @@ export default {
         email: null,
         token: null
       });
+      this.$emit("input", false);
       this.$router.push({ name: "login" });
     }
   },

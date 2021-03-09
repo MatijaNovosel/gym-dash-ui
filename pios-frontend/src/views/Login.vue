@@ -1,16 +1,16 @@
 <template>
   <main class="center-page d-flex flex-column justify-center align-center">
-    <v-card class="rounded-lg elevation-2">
+    <v-card class="rounded-lg elevation-2" :max-width="width">
       <div class="grey lighten-5 py-2">
         <v-list-item>
-          <v-list-item-avatar>
+          <v-list-item-avatar class="d-none d-sm-block">
             <v-icon>mdi-weight-lifter</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="font-weight-bold">
               Log into GymDash
             </v-list-item-title>
-            <v-list-item-subtitle>
+            <v-list-item-subtitle class="d-none d-sm-block">
               Log in with your specified credentials
             </v-list-item-subtitle>
           </v-list-item-content>
@@ -73,7 +73,7 @@
                   </v-text-field>
                 </validation-provider>
               </v-col>
-              <v-col cols="12" class="text-right mt-2">
+              <v-col cols="12" class="text-center text-md-right mt-2">
                 <v-btn small type="submit" color="primary">
                   Submit
                 </v-btn>
@@ -103,6 +103,24 @@ export default {
     showPassword: false,
     RouteNames
   }),
+  computed: {
+    width() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          return 300;
+        case "sm":
+          return 400;
+        case "md":
+          return 500;
+        case "lg":
+          return 600;
+        case "xl":
+          return 700;
+        default:
+          return 500;
+      }
+    }
+  },
   methods: {
     ...mapActions(["setUser"]),
     async login() {

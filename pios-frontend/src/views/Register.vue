@@ -3,14 +3,14 @@
     <v-card class="rounded-lg elevation-2" :max-width="width">
       <div class="grey lighten-5 py-2">
         <v-list-item>
-          <v-list-item-avatar>
+          <v-list-item-avatar class="d-none d-sm-block">
             <v-icon>mdi-weight-lifter</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="font-weight-bold">
               Make a GymDash account
             </v-list-item-title>
-            <v-list-item-subtitle>
+            <v-list-item-subtitle class="d-none d-sm-block">
               Start making appointments immediately
             </v-list-item-subtitle>
           </v-list-item-content>
@@ -93,7 +93,7 @@
                   </v-text-field>
                 </validation-provider>
               </v-col>
-              <v-col cols="12" class="text-right mt-2">
+              <v-col cols="12" class="text-center text-md-right mt-2">
                 <v-btn small type="submit" color="primary">
                   Submit
                 </v-btn>
@@ -127,7 +127,7 @@ export default {
     width() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
-          return 220;
+          return 300;
         case "sm":
           return 400;
         case "md":

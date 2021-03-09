@@ -8,10 +8,10 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="font-weight-bold">
-              Log into GymDash
+              {{ $t("logIntoGymDash") }}
             </v-list-item-title>
             <v-list-item-subtitle class="d-none d-sm-block">
-              Log in with your specified credentials
+              {{ $t("logInWithYourSpecifiedCredentials") }}
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -75,7 +75,7 @@
               </v-col>
               <v-col cols="12" class="text-center text-md-right mt-2">
                 <v-btn small type="submit" color="primary">
-                  Submit
+                  {{ $t("submit") }}
                 </v-btn>
               </v-col>
             </v-row>
@@ -84,8 +84,10 @@
       </v-card-text>
     </v-card>
     <span class="mt-4 text-subtitle-2">
-      Don't have an account? Register
-      <router-link :to="{ name: RouteNames.REGISTER }"> here </router-link>
+      {{ $t("dontHaveAnAccount") }}? {{ $t("register") }}
+      <router-link :to="{ name: RouteNames.REGISTER }">
+        {{ $t("here").toLowerCase() }}
+      </router-link>
     </span>
   </main>
 </template>

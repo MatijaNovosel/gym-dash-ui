@@ -8,16 +8,16 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="font-weight-bold">
-              Make a GymDash account
+              {{ $t("makeGymDashAccount") }}
             </v-list-item-title>
             <v-list-item-subtitle class="d-none d-sm-block">
-              Start making appointments immediately
+              {{ $t("startMakingAppointmentsImmediately") }}
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </div>
       <v-divider />
-      <v-card-text class="pt-5" style="max-width: 100%;">
+      <v-card-text class="pt-5">
         <validation-observer ref="observer">
           <form @submit.prevent="register">
             <v-row>
@@ -95,7 +95,7 @@
               </v-col>
               <v-col cols="12" class="text-center text-md-right mt-2">
                 <v-btn small type="submit" color="primary">
-                  Submit
+                  {{ $t("submit") }}
                 </v-btn>
               </v-col>
             </v-row>
@@ -104,8 +104,10 @@
       </v-card-text>
     </v-card>
     <span class="mt-4 text-subtitle-2">
-      Already have an account? Log in
-      <router-link :to="{ name: RouteNames.LOGIN }"> here </router-link>
+      {{ $t("haveAnAccount") }}? {{ $t("login") }}
+      <router-link :to="{ name: RouteNames.LOGIN }">
+        {{ $t("here").toLowerCase() }}
+      </router-link>
     </span>
   </main>
 </template>

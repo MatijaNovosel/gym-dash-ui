@@ -1,15 +1,25 @@
 <template>
-  <main class="center-page d-flex justify-center align-center">
-    <v-card class="rounded-lg elevation-1">
-      <v-card-title>
-        Log into GymDash
-      </v-card-title>
-      <v-card-subtitle>
-        Log in with your specified credentials
-      </v-card-subtitle>
-      <v-card-text>
-        <validation-observer ref="loginForm" v-slot="{ handleSubmit }">
-          <form @submit.prevent="handleSubmit(login)">
+  <main class="center-page d-flex flex-column justify-center align-center">
+    <v-card class="rounded-lg elevation-2">
+      <div class="grey lighten-5 py-2">
+        <v-list-item>
+          <v-list-item-avatar>
+            <v-icon>mdi-weight-lifter</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title class="font-weight-bold">
+              Log into GymDash
+            </v-list-item-title>
+            <v-list-item-subtitle>
+              Log in with your specified credentials
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </div>
+      <v-divider />
+      <v-card-text class="pt-5">
+        <validation-observer ref="observer">
+          <form @submit.prevent="login">
             <v-row>
               <v-col cols="12">
                 <validation-provider
@@ -22,7 +32,6 @@
                     v-model="usernameOrEmail"
                     :error-messages="errors"
                     :hide-details="valid || (untouched && !failed)"
-                    filled
                     dense
                   >
                     <template #label>
@@ -40,22 +49,32 @@
                   v-slot="{ errors, valid, untouched, required, failed }"
                 >
                   <v-text-field
-                    type="password"
+                    :type="showPassword ? 'text' : 'password'"
                     v-model="password"
                     :error-messages="errors"
                     :hide-details="valid || (untouched && !failed)"
-                    filled
                     dense
                   >
                     <template #label>
                       <required-icon v-show="required" />
                       <span>{{ $t("password") }}</span>
                     </template>
+                    <template #append>
+                      <v-btn
+                        icon
+                        size="sm"
+                        @click="showPassword = !showPassword"
+                      >
+                        <v-icon
+                          v-text="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                        />
+                      </v-btn>
+                    </template>
                   </v-text-field>
                 </validation-provider>
               </v-col>
-              <v-col cols="12" class="text-right">
-                <v-btn small type="submit" color="primary" @click="login">
+              <v-col cols="12" class="text-right mt-2">
+                <v-btn small type="submit" color="primary">
                   Submit
                 </v-btn>
               </v-col>
@@ -64,28 +83,35 @@
         </validation-observer>
       </v-card-text>
     </v-card>
+    <span class="mt-4 text-subtitle-2">
+      Don't have an account? Register
+      <router-link :to="{ name: RouteNames.REGISTER }"> here </router-link>
+    </span>
   </main>
 </template>
 
 <script>
 // import AuthService from "../services/authService";
 import { mapActions } from "vuex";
+import RouteNames from "../router/routeNames";
 
 export default {
   name: "Login",
   data: () => ({
     usernameOrEmail: null,
-    password: null
+    password: null,
+    showPassword: false,
+    RouteNames
   }),
   methods: {
-    ...mapActions(["setUserData"]),
+    ...mapActions(["setUser"]),
     async login() {
-      const success = await this.$refs.loginForm.validate();
+      const success = await this.$refs.observer.validate();
       if (success) {
         /*
         const data = await AuthService.login({
-          username: this.loginForm.username,
-          password: this.loginForm.password
+          username: this.observer.username,
+          password: this.observer.password
         });
         */
         this.setUser({

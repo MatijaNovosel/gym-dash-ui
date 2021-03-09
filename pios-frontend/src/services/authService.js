@@ -6,5 +6,11 @@ export default {
       usernameOrEmail,
       password
     });
+  },
+  async register(usernameOrEmail, password) {
+    return await axios.post("auth/register", {
+      usernameOrEmail,
+      password
+    });
   }
 };

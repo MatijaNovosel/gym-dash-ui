@@ -4,8 +4,8 @@
       <drawer v-model="drawer" />
       <app-bar @toggle-drawer="drawer = !drawer" />
     </template>
-    <v-main>
-      <v-container :class="{ 'pa-0': !shouldShowUi }">
+    <v-main :class="{ 'grey lighten-3': !shouldShowUi }">
+      <v-container :class="{ 'pa-0 ma-0': !shouldShowUi }">
         <router-view />
       </v-container>
     </v-main>

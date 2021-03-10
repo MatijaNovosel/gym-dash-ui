@@ -14,6 +14,11 @@ export default {
     haveAnAccount: "Imate račun",
     login: "Prijavite se",
     makeGymDashAccount: "Napravite GymDash račun",
-    startMakingAppointmentsImmediately: "Počnite praviti rezervacije termina odmah"
+    startMakingAppointmentsImmediately: "Počnite praviti rezervacije termina odmah",
+    typeOfPurchase: {
+      ONLINE: "Preko interneta",
+      CASH: "Gotovinom",
+      CREDIT_CARD: "Credit card"
+    }
   }
 }

@@ -14,6 +14,11 @@ export default {
     haveAnAccount: "Have an account",
     login: "Log in",
     makeGymDashAccount: "Make GymDash account",
-    startMakingAppointmentsImmediately: "Start making appointments immediately"
+    startMakingAppointmentsImmediately: "Start making appointments immediately",
+    typeOfPurchase: {
+      ONLINE: "Online",
+      CASH: "Cash",
+      CREDIT_CARD: "Credit card"
+    }
   }
 }

@@ -6,3 +6,7 @@ export function initials(name) {
   ).toUpperCase();
   return initials;
 }
+
+export function getKeyByValue(object, value) {
+  return Object.keys(object).find(key => object[key] === value);
+}

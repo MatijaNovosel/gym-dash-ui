@@ -1,5 +1,5 @@
 <template>
-  <v-row class="mt-1">
+  <v-row>
     <v-col cols="12">
       <v-card class="rounded-t-lg elevation-2">
         <v-card-title>
@@ -50,7 +50,7 @@
                 <v-icon>mdi-file-pdf</v-icon>
               </v-btn>
             </template>
-            <span>View receipt</span>
+            View receipt
           </v-tooltip>
         </template>
       </v-data-table>

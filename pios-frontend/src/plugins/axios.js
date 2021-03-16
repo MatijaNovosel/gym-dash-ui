@@ -8,6 +8,7 @@ Vue.prototype.$axios = axios
 axios.interceptors.request.use((config) => {
   config.mode = "cors";
   config.url = API_URL + config.url;
+  config.validateStatus = false;
   // config.withCredentials = true;
   // config.headers.common['Authorization'] = `Bearer ${store.state.user.token}`;
   return config;

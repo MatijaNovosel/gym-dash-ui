@@ -150,21 +150,28 @@ export default {
     async register() {
       const success = await this.$refs.observer.validate();
       if (success) {
-        try {
-          this.loading = true;
-          await AuthService.register(this.username, this.email, this.password);
+        this.loading = true;
+        
+        const response = await AuthService.register(
+          this.username,
+          this.email,
+          this.password
+        );
+
+        if (response.status >= 400) {
+          const { data } = response;
+          this.$emit("show-snackbar", {
+            color: "error",
+            message: data.error
+          });
+          this.loading = false;
+        } else {
           this.$emit("show-snackbar", {
             color: "success",
             message: this.$t("registerSuccess")
           });
           this.email = this.username = this.password = null;
           this.$refs.observer.reset();
-        } catch (e) {
-          this.$emit("show-snackbar", {
-            color: "red darken-2",
-            message: e.message
-          });
-        } finally {
           this.loading = false;
         }
       }

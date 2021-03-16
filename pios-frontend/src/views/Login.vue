@@ -135,31 +135,32 @@ export default {
     async login() {
       const success = await this.$refs.observer.validate();
       if (success) {
-        try {
-          this.loading = true;
+        this.loading = true;
 
+        const response = await AuthService.login(this.username, this.password);
+
+        if (response.status >= 400) {
+          const { data } = response;
+          this.$emit("show-snackbar", {
+            color: "error",
+            message: data.error
+          });
+          this.loading = false;
+        } else {
           const {
             data: { data }
-          } = await AuthService.login(this.username, this.password);
-
+          } = response;
           this.setUser({
             id: data.id,
             username: this.username,
             email: data.email,
             token: data.jwtToken
           });
-
           this.$emit("show-snackbar", {
             color: "success",
             message: this.$t("loginSuccess")
           });
           this.$router.push({ name: "home" });
-        } catch (e) {
-          this.$emit("show-snackbar", {
-            color: "red darken-2",
-            message: e.message
-          });
-        } finally {
           this.loading = false;
         }
       }

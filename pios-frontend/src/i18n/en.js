@@ -19,6 +19,9 @@ export default {
       ONLINE: "Online",
       CASH: "Cash",
       CREDIT_CARD: "Credit card"
-    }
+    },
+    registerSuccess: "You have successfully created an account",
+    loginSuccess: "You have logged in successfully",
+    logoutSuccess: "You have successfully logged out"
   }
 }

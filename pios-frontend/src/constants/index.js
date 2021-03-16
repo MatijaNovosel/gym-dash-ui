@@ -1,1 +1,1 @@
-export const API_URL = "https://localhost:3000/";
+export const API_URL = "https://scheduler-1615905897869.azurewebsites.net/api";

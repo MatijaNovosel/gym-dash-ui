@@ -80,11 +80,7 @@
                       <span>{{ $t("password") }}</span>
                     </template>
                     <template #append>
-                      <v-btn
-                        icon
-                        size="sm"
-                        @click="showPassword = !showPassword"
-                      >
+                      <v-btn icon small @click="showPassword = !showPassword">
                         <v-icon
                           v-text="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                         />
@@ -94,7 +90,13 @@
                 </validation-provider>
               </v-col>
               <v-col cols="12" class="text-center text-md-right mt-2">
-                <v-btn small type="submit" color="primary">
+                <v-btn
+                  :loading="loading"
+                  :disabled="loading"
+                  small
+                  type="submit"
+                  color="primary"
+                >
                   {{ $t("submit") }}
                 </v-btn>
               </v-col>
@@ -113,7 +115,7 @@
 </template>
 
 <script>
-// import AuthService from "../services/authService";
+import AuthService from "../services/authService";
 import RouteNames from "../router/routeNames";
 
 export default {
@@ -123,6 +125,7 @@ export default {
     password: null,
     username: null,
     showPassword: false,
+    loading: false,
     RouteNames
   }),
   computed: {
@@ -147,12 +150,23 @@ export default {
     async register() {
       const success = await this.$refs.observer.validate();
       if (success) {
-        /*
-        const data = await AuthService.register({
-          username: this.observer.username,
-          password: this.observer.password
-        });
-        */
+        try {
+          this.loading = true;
+          await AuthService.register(this.username, this.email, this.password);
+          this.$emit("show-snackbar", {
+            color: "success",
+            message: this.$t("registerSuccess")
+          });
+          this.email = this.username = this.password = null;
+          this.$refs.observer.reset();
+        } catch (e) {
+          this.$emit("show-snackbar", {
+            color: "red darken-2",
+            message: e.message
+          });
+        } finally {
+          this.loading = false;
+        }
       }
     }
   }

@@ -1,15 +1,16 @@
 import axios from "axios";
 
 export default {
-  async login(usernameOrEmail, password) {
-    return await axios.post("auth/login", {
-      usernameOrEmail,
+  async login(username, password) {
+    return await axios.post("/auth/login", {
+      username,
       password
     });
   },
-  async register(usernameOrEmail, password) {
-    return await axios.post("auth/register", {
-      usernameOrEmail,
+  async register(username, email, password) {
+    return await axios.post("/auth/register", {
+      username,
+      email,
       password
     });
   }

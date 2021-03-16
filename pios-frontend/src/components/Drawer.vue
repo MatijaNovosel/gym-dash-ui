@@ -74,6 +74,10 @@ export default {
         email: null,
         token: null
       });
+      this.$emit("show-snackbar", {
+        color: "success",
+        message: this.$t("logoutSuccess")
+      });
       this.$emit("input", false);
       this.$router.push({ name: "login" });
     }

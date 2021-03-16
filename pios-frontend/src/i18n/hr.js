@@ -19,6 +19,9 @@ export default {
       ONLINE: "Preko interneta",
       CASH: "Gotovinom",
       CREDIT_CARD: "Credit card"
-    }
+    },
+    registerSuccess: "Uspješno ste stvorili račun",
+    loginSuccess: "Uspješno ste prijavljeni",
+    logoutSuccess: "Uspješno ste odjavljeni"
   }
 }

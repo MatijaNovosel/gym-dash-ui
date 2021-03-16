@@ -23,20 +23,20 @@
             <v-row>
               <v-col cols="12">
                 <validation-provider
-                  vid="usernameOrEmail"
-                  :name="$t('usernameOrEmail')"
+                  vid="username"
+                  :name="$t('username')"
                   rules="required"
                   v-slot="{ errors, valid, untouched, required, failed }"
                 >
                   <v-text-field
-                    v-model="usernameOrEmail"
+                    v-model="username"
                     :error-messages="errors"
                     :hide-details="valid || (untouched && !failed)"
                     dense
                   >
                     <template #label>
                       <required-icon v-show="required" />
-                      <span>{{ $t("usernameOrEmail") }}</span>
+                      <span>{{ $t("username") }}</span>
                     </template>
                   </v-text-field>
                 </validation-provider>
@@ -74,7 +74,13 @@
                 </validation-provider>
               </v-col>
               <v-col cols="12" class="text-center text-md-right mt-2">
-                <v-btn small type="submit" color="primary">
+                <v-btn
+                  :loading="loading"
+                  :disabled="loading"
+                  small
+                  type="submit"
+                  color="primary"
+                >
                   {{ $t("submit") }}
                 </v-btn>
               </v-col>
@@ -93,14 +99,15 @@
 </template>
 
 <script>
-// import AuthService from "../services/authService";
+import AuthService from "../services/authService";
 import { mapActions } from "vuex";
 import RouteNames from "../router/routeNames";
 
 export default {
   name: "Login",
   data: () => ({
-    usernameOrEmail: null,
+    loading: false,
+    username: null,
     password: null,
     showPassword: false,
     RouteNames
@@ -128,20 +135,33 @@ export default {
     async login() {
       const success = await this.$refs.observer.validate();
       if (success) {
-        /*
-        const data = await AuthService.login({
-          username: this.observer.username,
-          password: this.observer.password
-        });
-        */
-        this.setUser({
-          id: 1,
-          username: "Matija Novosel",
-          email: "mnovosel5@gmail.com",
-          token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNjE3ODM0NDk5fQ.tkx6_G_A_Zfq9xa8hZxL9zH_VZNBjbFF0AAgWchxz_Y"
-        });
-        this.$router.push({ name: "home" });
+        try {
+          this.loading = true;
+
+          const {
+            data: { data }
+          } = await AuthService.login(this.username, this.password);
+
+          this.setUser({
+            id: data.id,
+            username: this.username,
+            email: data.email,
+            token: data.jwtToken
+          });
+
+          this.$emit("show-snackbar", {
+            color: "success",
+            message: this.$t("loginSuccess")
+          });
+          this.$router.push({ name: "home" });
+        } catch (e) {
+          this.$emit("show-snackbar", {
+            color: "red darken-2",
+            message: e.message
+          });
+        } finally {
+          this.loading = false;
+        }
       }
     }
   }

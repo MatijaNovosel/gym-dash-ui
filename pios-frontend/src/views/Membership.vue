@@ -33,6 +33,26 @@
             $t(`typeOfPurchase.${getKeyByValue(PAY_TYPE, item.typeOfPurchase)}`)
           }}
         </template>
+        <template #item.amount="{ item }">
+          {{ item.amount }}
+          HRK
+        </template>
+        <template #item.actions>
+          <v-tooltip top>
+            <template #activator="{ on, attrs }">
+              <v-btn
+                icon
+                color="red"
+                v-on="on"
+                v-bind="attrs"
+                @click="downloadReceipt"
+              >
+                <v-icon>mdi-file-pdf</v-icon>
+              </v-btn>
+            </template>
+            <span>View receipt</span>
+          </v-tooltip>
+        </template>
       </v-data-table>
     </v-col>
   </v-row>
@@ -41,13 +61,22 @@
 <script>
 import { add, format } from "date-fns";
 import { PAY_TYPE } from "../constants/enumerations";
-import { getKeyByValue } from "../helpers/index";
+import { getKeyByValue, download, dataUrlToFile } from "../helpers/index";
+import { dummyPdfBase64 } from "../constants/index";
 
 export default {
   name: "Membership",
   methods: {
     format,
-    getKeyByValue
+    getKeyByValue,
+    async downloadReceipt() {
+      const file = await dataUrlToFile(
+        `data:application/pdf;base64,${dummyPdfBase64}`,
+        "receipt.pdf",
+        "application/pdf"
+      );
+      download(file);
+    }
   },
   data: () => ({
     PAY_TYPE,
@@ -63,38 +92,52 @@ export default {
       {
         text: "Type of purchase",
         value: "typeOfPurchase"
+      },
+      {
+        text: "Amount",
+        value: "amount"
+      },
+      {
+        text: "",
+        value: "actions"
       }
     ],
     desserts: [
       {
         purchasedAt: new Date(),
         expiredAt: add(new Date(), { days: 4 }),
-        typeOfPurchase: PAY_TYPE.ONLINE
+        typeOfPurchase: PAY_TYPE.ONLINE,
+        amount: 125
       },
       {
         purchasedAt: new Date(),
         expiredAt: add(new Date(), { days: 4 }),
-        typeOfPurchase: PAY_TYPE.CASH
+        typeOfPurchase: PAY_TYPE.CASH,
+        amount: 225
       },
       {
         purchasedAt: new Date(),
         expiredAt: add(new Date(), { days: 4 }),
-        typeOfPurchase: PAY_TYPE.CREDIT_CARD
+        typeOfPurchase: PAY_TYPE.CREDIT_CARD,
+        amount: 111
       },
       {
         purchasedAt: new Date(),
         expiredAt: add(new Date(), { days: 4 }),
-        typeOfPurchase: PAY_TYPE.CASH
+        typeOfPurchase: PAY_TYPE.CASH,
+        amount: 65
       },
       {
         purchasedAt: new Date(),
         expiredAt: add(new Date(), { days: 4 }),
-        typeOfPurchase: PAY_TYPE.CASH
+        typeOfPurchase: PAY_TYPE.CASH,
+        amount: 43
       },
       {
         purchasedAt: new Date(),
         expiredAt: add(new Date(), { days: 4 }),
-        typeOfPurchase: PAY_TYPE.ONLINE
+        typeOfPurchase: PAY_TYPE.ONLINE,
+        amount: 999
       }
     ]
   })

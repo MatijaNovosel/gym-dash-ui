@@ -3,22 +3,36 @@
     <v-col cols="12">
       <v-card class="rounded-t-lg elevation-2">
         <v-card-title>
-          <v-icon class="mr-2" color="green">mdi-check-circle</v-icon>
-          <span>Membership is valid</span>
+          <v-icon
+            class="mr-2"
+            v-text="isMembershipValid ? 'mdi-check-circle' : 'mdi-close-circle'"
+            :color="isMembershipValid ? 'green' : 'red'"
+          />
+          <span>{{ isMembershipValid ? $t("membershipValid") : $t("membershipInvalid") }}</span>
         </v-card-title>
         <v-card-subtitle>
-          03.03.2021. - 05.06.2021.
+          {{
+            `${format(items[0].purchasedAt, "dd.MM.yyyy. HH:mm")} - ${format(
+              items[0].expiredAt,
+              "dd.MM.yyyy. HH:mm"
+            )}`
+          }}
         </v-card-subtitle>
+        <v-divider />
+        <v-card-actions class="justify-end py-4">
+          <v-btn :disabled="isMembershipValid" color="primary" small>Extend membership</v-btn>
+          <v-btn :disabled="!isMembershipValid" color="error" small>Cancel membership</v-btn>
+        </v-card-actions>
       </v-card>
     </v-col>
     <v-col cols="12" class="text-subtitle-2">
-      Previous membership purchases
+      {{ $t("previousMembershipPurchases") }}
     </v-col>
     <v-col cols="12" class="pt-0">
       <v-data-table
         dense
         :headers="headers"
-        :items="desserts"
+        :items="items"
         :items-per-page="5"
         class="elevation-2"
       >
@@ -50,7 +64,7 @@
                 <v-icon>mdi-file-pdf</v-icon>
               </v-btn>
             </template>
-            View receipt
+            {{ $t("viewReceipt") }}
           </v-tooltip>
         </template>
       </v-data-table>
@@ -59,7 +73,7 @@
 </template>
 
 <script>
-import { add, format } from "date-fns";
+import { add, format, isBefore } from "date-fns";
 import { PAY_TYPE } from "../constants/enumerations";
 import { getKeyByValue, download, dataUrlToFile } from "../helpers/index";
 import { dummyPdfBase64 } from "../constants/index";
@@ -78,66 +92,78 @@ export default {
       download(file);
     }
   },
+  computed: {
+    isMembershipValid() {
+      if (this.items && this.items.length != 0) {
+        return isBefore(new Date(), new Date(this.items[0].expiredAt * 1000));
+      }
+      return false;
+    },
+    headers() {
+      return [
+        {
+          text: this.$t("purchasedAt"),
+          value: "purchasedAt"
+        },
+        {
+          text: this.$t("expiredAt"),
+          value: "expiredAt"
+        },
+        {
+          text: this.$t("typeOfPurchaseHeader"),
+          value: "typeOfPurchase",
+          sortable: false
+        },
+        {
+          text: this.$t("amount"),
+          value: "amount"
+        },
+        {
+          text: null,
+          value: "actions",
+          sortable: false
+        }
+      ];
+    }
+  },
   data: () => ({
     PAY_TYPE,
-    headers: [
-      {
-        text: "Purchased at",
-        value: "purchasedAt"
-      },
-      {
-        text: "Expired at",
-        value: "expiredAt"
-      },
-      {
-        text: "Type of purchase",
-        value: "typeOfPurchase"
-      },
-      {
-        text: "Amount",
-        value: "amount"
-      },
-      {
-        text: "",
-        value: "actions"
-      }
-    ],
-    desserts: [
+    items: [
       {
         purchasedAt: new Date(),
-        expiredAt: add(new Date(), { days: 4 }),
-        typeOfPurchase: PAY_TYPE.ONLINE,
-        amount: 125
-      },
-      {
-        purchasedAt: new Date(),
-        expiredAt: add(new Date(), { days: 4 }),
+        expiredAt: add(new Date(), { days: 30 }),
         typeOfPurchase: PAY_TYPE.CASH,
-        amount: 225
+        amount: 25
       },
       {
-        purchasedAt: new Date(),
-        expiredAt: add(new Date(), { days: 4 }),
-        typeOfPurchase: PAY_TYPE.CREDIT_CARD,
-        amount: 111
-      },
-      {
-        purchasedAt: new Date(),
-        expiredAt: add(new Date(), { days: 4 }),
-        typeOfPurchase: PAY_TYPE.CASH,
-        amount: 65
-      },
-      {
-        purchasedAt: new Date(),
-        expiredAt: add(new Date(), { days: 4 }),
+        purchasedAt: new Date(1612300931 * 1000),
+        expiredAt: add(new Date(1612300931 * 1000), { days: 30 }),
         typeOfPurchase: PAY_TYPE.CASH,
         amount: 43
       },
       {
-        purchasedAt: new Date(),
-        expiredAt: add(new Date(), { days: 4 }),
+        purchasedAt: new Date(1609536131 * 1000),
+        expiredAt: add(new Date(1609536131 * 1000), { days: 30 }),
         typeOfPurchase: PAY_TYPE.ONLINE,
-        amount: 999
+        amount: 240
+      },
+      {
+        purchasedAt: new Date(1591129331 * 1000),
+        expiredAt: add(new Date(1591129331 * 1000), { days: 30 }),
+        typeOfPurchase: PAY_TYPE.CREDIT_CARD,
+        amount: 125
+      },
+      {
+        purchasedAt: new Date(1580678531 * 1000),
+        expiredAt: add(new Date(1580678531 * 1000), { days: 30 }),
+        typeOfPurchase: PAY_TYPE.CREDIT_CARD,
+        amount: 100
+      },
+      {
+        purchasedAt: new Date(1559928131 * 1000),
+        expiredAt: add(new Date(1559928131 * 1000), { days: 30 }),
+        typeOfPurchase: PAY_TYPE.CREDIT_CARD,
+        amount: 400
       }
     ]
   })

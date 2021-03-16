@@ -22,6 +22,14 @@ export default {
     },
     registerSuccess: "You have successfully created an account",
     loginSuccess: "You have logged in successfully",
-    logoutSuccess: "You have successfully logged out"
+    logoutSuccess: "You have successfully logged out",
+    purchasedAt: "Purchased at",
+    expiredAt: "Expired at",
+    typeOfPurchaseHeader: "Type of purchase",
+    amount: "Amount",
+    previousMembershipPurchases: "Previous membership purchases",
+    membershipValid: "Membership valid",
+    membershipInvalid: "Membership invalid",
+    viewReceipt: "View receipt"
   }
 }

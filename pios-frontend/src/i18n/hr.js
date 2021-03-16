@@ -22,6 +22,14 @@ export default {
     },
     registerSuccess: "Uspješno ste stvorili račun",
     loginSuccess: "Uspješno ste prijavljeni",
-    logoutSuccess: "Uspješno ste odjavljeni"
+    logoutSuccess: "Uspješno ste odjavljeni",
+    purchasedAt: "Kupljeno datuma",
+    expiredAt: "Isteklo datuma",
+    typeOfPurchaseHeader: "Tip kupnje",
+    amount: "Iznos",
+    previousMembershipPurchases: "Prijašnje kupnje",
+    membershipValid: "Članstvo vrijedi",
+    membershipInvalid: "Članstvo isteklo",
+    viewReceipt: "Pregledaj račun"
   }
 }

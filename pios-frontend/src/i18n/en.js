@@ -30,6 +30,8 @@ export default {
     previousMembershipPurchases: "Previous membership purchases",
     membershipValid: "Membership valid",
     membershipInvalid: "Membership invalid",
-    viewReceipt: "View receipt"
+    viewReceipt: "View receipt",
+    yes: "Yes",
+    no: "No"
   }
 }

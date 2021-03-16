@@ -30,6 +30,8 @@ export default {
     previousMembershipPurchases: "Prijašnje kupnje",
     membershipValid: "Članstvo vrijedi",
     membershipInvalid: "Članstvo isteklo",
-    viewReceipt: "Pregledaj račun"
+    viewReceipt: "Pregledaj račun",
+    yes: "Da",
+    no: "Ne"
   }
 }

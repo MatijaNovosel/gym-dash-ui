@@ -8,7 +8,9 @@
             v-text="isMembershipValid ? 'mdi-check-circle' : 'mdi-close-circle'"
             :color="isMembershipValid ? 'green' : 'red'"
           />
-          <span>{{ isMembershipValid ? $t("membershipValid") : $t("membershipInvalid") }}</span>
+          <span>{{
+            isMembershipValid ? $t("membershipValid") : $t("membershipInvalid")
+          }}</span>
         </v-card-title>
         <v-card-subtitle>
           {{
@@ -20,8 +22,16 @@
         </v-card-subtitle>
         <v-divider />
         <v-card-actions class="justify-end py-4">
-          <v-btn :disabled="isMembershipValid" color="primary" small>Extend membership</v-btn>
-          <v-btn :disabled="!isMembershipValid" color="error" small>Cancel membership</v-btn>
+          <v-btn :disabled="isMembershipValid" color="primary" small
+            >Extend membership</v-btn
+          >
+          <v-btn
+            @click="dialog = true"
+            :disabled="!isMembershipValid"
+            color="error"
+            small
+            >Cancel membership</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-col>
@@ -69,6 +79,12 @@
         </template>
       </v-data-table>
     </v-col>
+    <confirmation-dialog
+      @no="dialog = false"
+      @yes="cancelMembership"
+      v-model="dialog"
+      title="Are you sure?"
+    />
   </v-row>
 </template>
 
@@ -77,9 +93,13 @@ import { add, format, isBefore } from "date-fns";
 import { PAY_TYPE } from "../constants/enumerations";
 import { getKeyByValue, download, dataUrlToFile } from "../helpers/index";
 import { dummyPdfBase64 } from "../constants/index";
+import ConfirmationDialog from "../components/ConfirmationDialog";
 
 export default {
   name: "Membership",
+  components: {
+    ConfirmationDialog
+  },
   methods: {
     format,
     getKeyByValue,
@@ -90,6 +110,10 @@ export default {
         "application/pdf"
       );
       download(file);
+    },
+    cancelMembership() {
+      // Cancel membership call here
+      this.dialog = false;
     }
   },
   computed: {
@@ -128,6 +152,7 @@ export default {
   },
   data: () => ({
     PAY_TYPE,
+    dialog: false,
     items: [
       {
         purchasedAt: new Date(),

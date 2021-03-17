@@ -1,7 +1,7 @@
 <template>
   <v-row class="fill-height">
     <v-col>
-      <v-toolbar class="elevation-1 rounded-t-lg">
+      <v-toolbar flat>
         <v-btn small color="secondary" @click="setToday">
           Today
         </v-btn>

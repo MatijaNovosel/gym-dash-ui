@@ -24,7 +24,7 @@ export default {
     loginSuccess: "You have logged in successfully",
     logoutSuccess: "You have successfully logged out",
     purchasedAt: "Purchased at",
-    expiredAt: "Expired at",
+    expiresAt: "Expires at",
     typeOfPurchaseHeader: "Type of purchase",
     amount: "Amount",
     previousMembershipPurchases: "Previous membership purchases",
@@ -37,6 +37,13 @@ export default {
     locale: {
       EN: "English",
       HR: "Croatian"
-    }
+    },
+    membershipDuration: "Membership duration",
+    membershipDurationVals: {
+      MONTH: "Month",
+      HALF_YEAR: "Half year",
+      YEAR: "Year"
+    },
+    pay: "Pay"
   }
 }

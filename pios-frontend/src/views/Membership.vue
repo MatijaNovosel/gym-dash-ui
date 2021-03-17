@@ -19,14 +19,22 @@
         <v-card-subtitle>
           {{
             `${format(items[0].purchasedAt, "dd.MM.yyyy. HH:mm")} - ${format(
-              items[0].expiredAt,
+              calculateExpiresAtDate(
+                items[0].purchasedAt,
+                items[0].membershipDuration
+              ),
               "dd.MM.yyyy. HH:mm"
             )}`
           }}
         </v-card-subtitle>
         <v-divider />
         <v-card-actions class="justify-center justify-md-end py-4">
-          <v-btn :disabled="isMembershipValid" color="primary" small>
+          <v-btn
+            @click="payDialog = true"
+            :disabled="!isMembershipValid"
+            color="primary"
+            small
+          >
             Extend
           </v-btn>
           <v-btn
@@ -54,12 +62,27 @@
         <template #item.purchasedAt="{ item }">
           {{ format(item.purchasedAt, "dd.MM.yyyy. HH:mm") }}
         </template>
-        <template #item.expiredAt="{ item }">
-          {{ format(item.expiredAt, "dd.MM.yyyy. HH:mm") }}
+        <template #item.expiresAt="{ item }">
+          {{
+            format(
+              calculateExpiresAtDate(item.purchasedAt, item.membershipDuration),
+              "dd.MM.yyyy. HH:mm"
+            )
+          }}
         </template>
         <template #item.typeOfPurchase="{ item }">
           {{
             $t(`typeOfPurchase.${getKeyByValue(PAY_TYPE, item.typeOfPurchase)}`)
+          }}
+        </template>
+        <template #item.membershipDuration="{ item }">
+          {{
+            $t(
+              `membershipDurationVals.${getKeyByValue(
+                MEMBERSHIP_DURATION,
+                item.membershipDuration
+              )}`
+            )
           }}
         </template>
         <template #item.amount="{ item }">
@@ -90,24 +113,106 @@
       v-model="dialog"
       title="Are you sure?"
     />
+    <header-dialog
+      max-width="50%"
+      v-model="payDialog"
+      title="Extend membership"
+      @close="resetPayDialog"
+    >
+      <validation-observer ref="observer">
+        <form @submit.prevent="login">
+          <v-row class="mt-1">
+            <v-col cols="12">
+              <validation-provider
+                vid="membershipDuration"
+                :name="$t('membershipDuration')"
+                rules="required"
+                v-slot="{ errors, valid, untouched, required, failed }"
+              >
+                <v-select
+                  :error-messages="errors"
+                  :hide-details="valid || (untouched && !failed)"
+                  dense
+                  item-text="text"
+                  item-value="value"
+                  return-object
+                  :items="membershipDurationItems"
+                  v-model="membershipDuration"
+                  clearable
+                >
+                  <template #label>
+                    <required-icon v-show="required" />
+                    <span>{{ $t("membershipDuration") }}</span>
+                  </template>
+                </v-select>
+              </validation-provider>
+            </v-col>
+            <v-col cols="12">
+              <v-text-field
+                dense
+                hide-details
+                :disabled="!membershipDuration"
+                :label="$t('amount')"
+                readonly
+                suffix="HRK"
+                :value="membershipDurationAmount"
+              />
+            </v-col>
+            <v-col cols="12" class="text-center text-md-right mt-2">
+              <v-btn
+                :loading="payLoading"
+                :disabled="payLoading"
+                small
+                type="submit"
+                color="primary"
+              >
+                {{ $t("pay") }}
+              </v-btn>
+            </v-col>
+          </v-row>
+        </form>
+      </validation-observer>
+    </header-dialog>
   </v-row>
 </template>
 
 <script>
 import { add, format, isBefore } from "date-fns";
-import { PAY_TYPE } from "../constants/enumerations";
-import { getKeyByValue, download, dataUrlToFile } from "../helpers/index";
+import { PAY_TYPE, MEMBERSHIP_DURATION } from "../constants/enumerations";
+import {
+  getKeyByValue,
+  download,
+  dataUrlToFile,
+  selectItemArrayFromEnum
+} from "../helpers/index";
 import { dummyPdfBase64 } from "../constants/index";
 import ConfirmationDialog from "../components/ConfirmationDialog";
+import HeaderDialog from "../components/HeaderDialog";
 
 export default {
   name: "Membership",
   components: {
-    ConfirmationDialog
+    ConfirmationDialog,
+    HeaderDialog
   },
   methods: {
+    add,
     format,
     getKeyByValue,
+    resetPayDialog() {
+      this.membershipDuration = null;
+      this.$refs.observer.reset();
+    },
+    calculateExpiresAtDate(date, membershipDuration) {
+      switch (membershipDuration) {
+        case MEMBERSHIP_DURATION.MONTH:
+          return add(date, { months: 1 });
+        case MEMBERSHIP_DURATION.HALF_YEAR:
+          return add(date, { months: 6 });
+        case MEMBERSHIP_DURATION.YEAR:
+          return add(date, { years: 1 });
+      }
+    },
     async downloadReceipt() {
       const file = await dataUrlToFile(
         `data:application/pdf;base64,${dummyPdfBase64}`,
@@ -122,9 +227,30 @@ export default {
     }
   },
   computed: {
+    membershipDurationAmount() {
+      if (this.membershipDuration) {
+        switch (this.membershipDuration.val) {
+          case MEMBERSHIP_DURATION.MONTH:
+            return 250;
+          case MEMBERSHIP_DURATION.HALF_YEAR:
+            return 1000;
+          case MEMBERSHIP_DURATION.YEAR:
+            return 2500;
+        }
+      }
+      return null;
+    },
     isMembershipValid() {
       if (this.items && this.items.length != 0) {
-        return isBefore(new Date(), new Date(this.items[0].expiredAt * 1000));
+        return isBefore(
+          new Date(),
+          new Date(
+            this.calculateExpiresAtDate(
+              this.items[0].purchasedAt,
+              this.items[0].membershipDuration
+            )
+          )
+        );
       }
       return false;
     },
@@ -135,8 +261,12 @@ export default {
           value: "purchasedAt"
         },
         {
-          text: this.$t("expiredAt"),
-          value: "expiredAt"
+          text: this.$t("expiresAt"),
+          value: "expiresAt"
+        },
+        {
+          text: this.$t("membershipDuration"),
+          value: "membershipDuration"
         },
         {
           text: this.$t("typeOfPurchaseHeader"),
@@ -153,47 +283,51 @@ export default {
           sortable: false
         }
       ];
+    },
+    membershipDurationItems() {
+      return selectItemArrayFromEnum(
+        "membershipDurationVals",
+        MEMBERSHIP_DURATION
+      );
     }
   },
   data: () => ({
     PAY_TYPE,
+    MEMBERSHIP_DURATION,
     dialog: false,
+    payDialog: false,
+    payLoading: false,
+    membershipDuration: null,
     items: [
       {
         purchasedAt: new Date(),
-        expiredAt: add(new Date(), { days: 30 }),
         typeOfPurchase: PAY_TYPE.CASH,
-        amount: 25
+        membershipDuration: MEMBERSHIP_DURATION.MONTH,
+        amount: 250
       },
       {
         purchasedAt: new Date(1612300931 * 1000),
-        expiredAt: add(new Date(1612300931 * 1000), { days: 30 }),
+        membershipDuration: MEMBERSHIP_DURATION.MONTH,
         typeOfPurchase: PAY_TYPE.CASH,
-        amount: 43
+        amount: 250
       },
       {
         purchasedAt: new Date(1609536131 * 1000),
-        expiredAt: add(new Date(1609536131 * 1000), { days: 30 }),
+        membershipDuration: MEMBERSHIP_DURATION.MONTH,
         typeOfPurchase: PAY_TYPE.ONLINE,
-        amount: 240
+        amount: 175
       },
       {
         purchasedAt: new Date(1591129331 * 1000),
-        expiredAt: add(new Date(1591129331 * 1000), { days: 30 }),
+        membershipDuration: MEMBERSHIP_DURATION.MONTH,
         typeOfPurchase: PAY_TYPE.CREDIT_CARD,
-        amount: 125
+        amount: 250
       },
       {
-        purchasedAt: new Date(1580678531 * 1000),
-        expiredAt: add(new Date(1580678531 * 1000), { days: 30 }),
+        purchasedAt: new Date(1332021453 * 1000),
+        membershipDuration: MEMBERSHIP_DURATION.YEAR,
         typeOfPurchase: PAY_TYPE.CREDIT_CARD,
-        amount: 100
-      },
-      {
-        purchasedAt: new Date(1559928131 * 1000),
-        expiredAt: add(new Date(1559928131 * 1000), { days: 30 }),
-        typeOfPurchase: PAY_TYPE.CREDIT_CARD,
-        amount: 400
+        amount: 2500
       }
     ]
   })

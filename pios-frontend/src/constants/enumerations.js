@@ -13,3 +13,9 @@ export const LOCALE = {
   HR: 1,
   EN: 2
 };
+
+export const MEMBERSHIP_DURATION = {
+  MONTH: 1,
+  HALF_YEAR: 2,
+  YEAR: 3
+};

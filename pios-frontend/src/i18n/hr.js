@@ -24,7 +24,7 @@ export default {
     loginSuccess: "Uspješno ste prijavljeni",
     logoutSuccess: "Uspješno ste odjavljeni",
     purchasedAt: "Kupljeno datuma",
-    expiredAt: "Isteklo datuma",
+    expiresAt: "Isteklo datuma",
     typeOfPurchaseHeader: "Tip kupnje",
     amount: "Iznos",
     previousMembershipPurchases: "Prijašnje kupnje",
@@ -37,6 +37,13 @@ export default {
     locale: {
       EN: "Engleski",
       HR: "Hrvatski"
-    }
+    },
+    membershipDuration: "Trajanje članstva", 
+    membershipDurationVals: {
+      MONTH: "Mjesec dana",
+      HALF_YEAR: "Pola godine",
+      YEAR: "Godinu dana"
+    },
+    pay: "Plati"
   }
 }

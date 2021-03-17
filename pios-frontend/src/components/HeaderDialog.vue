@@ -8,7 +8,6 @@
     <v-card :style="{ maxHeight: maxHeight }">
       <v-card-title>
         <span
-          class="black--text"
           :style="{
             fontSize:
               $vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? '15px' : '20px'
@@ -19,7 +18,6 @@
         <v-spacer />
         <v-btn
           v-if="haveCloseButton"
-          color="black"
           @click="close"
           small
           icon
@@ -56,6 +54,7 @@ export default {
     close() {
       this.open = false;
       this.$emit("input", this.open);
+      this.$emit("close");
     }
   },
   watch: {

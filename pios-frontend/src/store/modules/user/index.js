@@ -1,3 +1,5 @@
+import { AUTH_ROLE } from "../../../constants/enumerations";
+
 export default {
   state: {
     user: {
@@ -19,6 +21,7 @@ export default {
     }
   },
   getters: {
-    user: state => state.user
+    user: state => state.user,
+    isAdmin: state => state.user.role == AUTH_ROLE.ADMIN
   },
 }

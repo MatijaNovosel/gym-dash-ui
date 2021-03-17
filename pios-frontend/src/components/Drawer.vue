@@ -105,7 +105,7 @@ export default {
         }
       ];
 
-      if (this.isAdmin()) {
+      if (this.isAdmin) {
         res.push({
           text: "Admin panel",
           icon: "mdi-account",

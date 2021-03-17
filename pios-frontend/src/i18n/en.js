@@ -32,6 +32,11 @@ export default {
     membershipInvalid: "Membership invalid",
     viewReceipt: "View receipt",
     yes: "Yes",
-    no: "No"
+    no: "No",
+    save: "Save",
+    locale: {
+      EN: "English",
+      HR: "Croatian"
+    }
   }
 }

@@ -25,9 +25,9 @@
           }}
         </v-card-subtitle>
         <v-divider />
-        <v-card-actions class="justify-end py-4">
+        <v-card-actions class="justify-center justify-md-end py-4">
           <v-btn :disabled="isMembershipValid" color="primary" small>
-            Extend membership
+            Extend
           </v-btn>
           <v-btn
             @click="dialog = true"
@@ -35,7 +35,7 @@
             color="error"
             small
           >
-            Cancel membership
+            Cancel
           </v-btn>
         </v-card-actions>
       </v-card>

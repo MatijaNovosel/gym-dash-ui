@@ -2,7 +2,7 @@
   <v-row class="fill-height">
     <v-col>
       <v-toolbar class="elevation-1 rounded-t-lg">
-        <v-btn small color="primary" @click="setToday">
+        <v-btn small color="secondary" @click="setToday">
           Today
         </v-btn>
         <v-menu offset-y>

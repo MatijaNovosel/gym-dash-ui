@@ -32,6 +32,11 @@ export default {
     membershipInvalid: "Članstvo isteklo",
     viewReceipt: "Pregledaj račun",
     yes: "Da",
-    no: "Ne"
+    no: "Ne",
+    save: "Spremi",
+    locale: {
+      EN: "Engleski",
+      HR: "Hrvatski"
+    }
   }
 }

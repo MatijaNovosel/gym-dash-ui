@@ -60,11 +60,7 @@
                       <span>{{ $t("password") }}</span>
                     </template>
                     <template #append>
-                      <v-btn
-                        icon
-                        size="sm"
-                        @click="showPassword = !showPassword"
-                      >
+                      <v-btn icon small @click="showPassword = !showPassword">
                         <v-icon
                           v-text="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                         />

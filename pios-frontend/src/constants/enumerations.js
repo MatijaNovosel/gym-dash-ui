@@ -8,3 +8,8 @@ export const AUTH_ROLE = {
   USER: 1,
   ADMIN: 2
 };
+
+export const LOCALE = {
+  HR: 1,
+  EN: 2
+};

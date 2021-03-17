@@ -48,20 +48,17 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
 import routeNames from "../router/routeNames";
 import { initials } from "../helpers/index";
+import UserMixin from "../mixins/userMixin";
 
 export default {
   name: "drawer",
   props: {
     value: Boolean
   },
-  computed: {
-    ...mapGetters(["user"])
-  },
+  mixins: [UserMixin],
   methods: {
-    ...mapActions(["setUser"]),
     initials,
     inputChanged(val) {
       this.drawerOpen = val;
@@ -87,22 +84,34 @@ export default {
       this.drawerOpen = val;
     }
   },
-  data: () => ({
-    drawerOpen: false,
-    items: [
-      {
-        text: "Home",
-        icon: "mdi-home",
-        route: { name: routeNames.HOME }
-      },
-      {
-        text: "Membership",
-        icon: "mdi-credit-card",
-        route: { name: routeNames.MEMBERSHIP }
+  computed: {
+    items() {
+      const res = [
+        {
+          text: "Home",
+          icon: "mdi-home",
+          route: { name: routeNames.HOME }
+        },
+        {
+          text: "Membership",
+          icon: "mdi-credit-card",
+          route: { name: routeNames.MEMBERSHIP }
+        }
+      ];
+
+      if (this.isAdmin()) {
+        res.push({
+          text: "Admin panel",
+          icon: "mdi-account",
+          route: { name: routeNames.ADMIN_PANEL }
+        });
       }
-    ]
+
+      return res;
+    }
+  },
+  data: () => ({
+    drawerOpen: false
   })
 };
 </script>
-
-<style></style>

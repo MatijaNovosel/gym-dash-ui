@@ -56,7 +56,7 @@ export default {
   methods: {
     yes() {
       this.$emit("yes");
-      close();
+      this.close();
     },
     no() {
       this.$emit("no");

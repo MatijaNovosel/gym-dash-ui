@@ -8,9 +8,13 @@
             v-text="isMembershipValid ? 'mdi-check-circle' : 'mdi-close-circle'"
             :color="isMembershipValid ? 'green' : 'red'"
           />
-          <span>{{
-            isMembershipValid ? $t("membershipValid") : $t("membershipInvalid")
-          }}</span>
+          <span>
+            {{
+              isMembershipValid
+                ? $t("membershipValid")
+                : $t("membershipInvalid")
+            }}
+          </span>
         </v-card-title>
         <v-card-subtitle>
           {{
@@ -22,16 +26,17 @@
         </v-card-subtitle>
         <v-divider />
         <v-card-actions class="justify-end py-4">
-          <v-btn :disabled="isMembershipValid" color="primary" small
-            >Extend membership</v-btn
-          >
+          <v-btn :disabled="isMembershipValid" color="primary" small>
+            Extend membership
+          </v-btn>
           <v-btn
             @click="dialog = true"
             :disabled="!isMembershipValid"
             color="error"
             small
-            >Cancel membership</v-btn
           >
+            Cancel membership
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-col>

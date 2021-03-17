@@ -59,8 +59,8 @@
           :activator="selectedElement"
           offset-x
         >
-          <v-card color="grey lighten-4" min-width="250px" flat>
-            <v-toolbar :color="selectedEvent.color" dark>
+          <v-card :color="darkMode && 'grey lighten-4'" min-width="250px" flat>
+            <v-toolbar :color="selectedEvent.color">
               <v-btn icon>
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
@@ -86,7 +86,11 @@
 </template>
 
 <script>
+import DarkModeMixin from "../mixins/darkModeMixin";
+
 export default {
+  name: "Home",
+  mixins: [DarkModeMixin],
   data: () => ({
     focus: "",
     type: "month",

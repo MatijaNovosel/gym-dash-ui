@@ -4,7 +4,6 @@
       <v-card-title>
         <div class="text-center" style="width: 100%">
           <span
-            class="black--text"
             :style="{
               fontSize:
                 $vuetify.breakpoint.xs || $vuetify.breakpoint.sm

@@ -97,11 +97,6 @@ export default {
           text: "Home",
           icon: "mdi-home",
           route: { name: RouteNames.HOME }
-        },
-        {
-          text: "Membership",
-          icon: "mdi-credit-card",
-          route: { name: RouteNames.MEMBERSHIP }
         }
       ];
 
@@ -110,6 +105,12 @@ export default {
           text: "Admin panel",
           icon: "mdi-account",
           route: { name: RouteNames.ADMIN_PANEL }
+        });
+      } else {
+        res.push({
+          text: "Membership",
+          icon: "mdi-credit-card",
+          route: { name: RouteNames.MEMBERSHIP }
         });
       }
 

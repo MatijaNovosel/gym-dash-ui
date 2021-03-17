@@ -1,66 +1,86 @@
 <template>
-  <v-tabs vertical>
-    <v-tab>
-      <v-icon left class="mr-3">
-        mdi-account
-      </v-icon>
-      Personal info
-    </v-tab>
-    <v-tab>
-      <v-icon left class="mr-3">
-        mdi-cogs
-      </v-icon>
-      App settings
-    </v-tab>
-    <v-tab-item>
-      <v-card flat>
-        <v-card-text>
-          <v-row>
-            <v-col cols="12">
-              <v-text-field
-                dense
-                outlined
-                readonly
-                hide-details
-                :value="username"
-                :label="$t('username')"
-              />
-            </v-col>
-            <v-col cols="12">
-              <v-text-field
-                dense
-                outlined
-                readonly
-                hide-details
-                :value="email"
-                :label="$t('email')"
-              />
-            </v-col>
-          </v-row>
-        </v-card-text>
-      </v-card>
-    </v-tab-item>
-    <v-tab-item>
-      <v-card flat>
-        <v-card-text>
-          <v-row>
-            <v-col cols="12">
-              <v-select
-                outlined
-                dense
-                hide-details
-                item-text="text"
-                item-value="value"
-                :items="localeItems"
-                v-model="locale"
-                label="Locale"
-              />
-            </v-col>
-          </v-row>
-        </v-card-text>
-      </v-card>
-    </v-tab-item>
-  </v-tabs>
+  <v-row>
+    <v-col cols="12">
+      <v-tabs
+        :vertical="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
+        v-model="tab"
+      >
+        <v-tab>
+          <v-icon left class="mr-3">
+            mdi-account
+          </v-icon>
+          Personal info
+        </v-tab>
+        <v-tab>
+          <v-icon left class="mr-3">
+            mdi-cogs
+          </v-icon>
+          App settings
+        </v-tab>
+      </v-tabs>
+      <v-divider />
+      <v-tabs-items v-model="tab">
+        <v-tab-item>
+          <v-card flat class="mt-2">
+            <v-card-text>
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field
+                    dense
+                    outlined
+                    readonly
+                    hide-details
+                    :value="username"
+                    :label="$t('username')"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    dense
+                    outlined
+                    readonly
+                    hide-details
+                    :value="email"
+                    :label="$t('email')"
+                  />
+                </v-col>
+                <v-col cols="12" class="text-right">
+                  <v-btn small color="primary">
+                    {{ $t("save") }}
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+        </v-tab-item>
+        <v-tab-item>
+          <v-card flat>
+            <v-card-text>
+              <v-row>
+                <v-col cols="12">
+                  <v-select
+                    outlined
+                    dense
+                    hide-details
+                    item-text="text"
+                    item-value="value"
+                    :items="localeItems"
+                    v-model="locale"
+                    label="Locale"
+                  />
+                </v-col>
+                <v-col cols="12" class="text-right">
+                  <v-btn small color="primary">
+                    {{ $t("save") }}
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+        </v-tab-item>
+      </v-tabs-items>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -87,6 +107,7 @@ export default {
     }
   },
   data: () => ({
+    tab: 0,
     locale: null,
     username: null,
     email: null,

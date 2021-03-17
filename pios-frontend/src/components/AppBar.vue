@@ -17,7 +17,11 @@
           </span>
         </v-list-item-title>
         <v-list-item-subtitle>
-          <span class="text-subtitle-2">
+          <span class="text-subtitle-2" v-if="isAdmin">
+            <v-icon small color="red">mdi-account</v-icon>
+            Admin account
+          </span>
+          <span class="text-subtitle-2" v-else>
             <v-icon small color="success">mdi-check-circle</v-icon>
             Membership is valid
           </span>
@@ -33,17 +37,18 @@
 import DarkModeSwitch from "./DarkModeSwitch.vue";
 import debounce from "debounce";
 import DarkModeMixin from "../mixins/darkModeMixin";
+import UserMixin from "../mixins/userMixin";
 
 export default {
   name: "app-bar",
   components: {
     DarkModeSwitch
   },
-  mixins: [DarkModeMixin],
+  mixins: [DarkModeMixin, UserMixin],
   methods: {
     darkModeValChanged: debounce(function() {
       this.setDarkMode(this.darkModeSwitchVal);
-    }, 1500)
+    }, 750)
   },
   created() {
     this.darkModeSwitchVal = this.darkMode;

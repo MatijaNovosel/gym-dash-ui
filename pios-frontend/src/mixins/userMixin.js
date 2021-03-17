@@ -8,7 +8,7 @@ export default {
   methods: {
     ...mapActions(["setUser"]),
     isAdmin() {
-      return this.user.roles.includes(AUTH_ROLE.ADMIN);
+      return this.user.role == AUTH_ROLE.ADMIN;
     }
   }
 }

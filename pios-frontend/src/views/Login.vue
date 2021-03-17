@@ -154,7 +154,10 @@ export default {
             id: data.id,
             username: this.username,
             email: data.email,
-            token: data.jwtToken
+            token: data.jwtToken,
+            role: {
+              id: 1
+            }
           });
           this.$emit("show-snackbar", {
             color: "success",

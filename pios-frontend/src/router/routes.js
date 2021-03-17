@@ -3,6 +3,7 @@ import Membership from '../views/Membership.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import AdminPanel from '../views/AdminPanel.vue'
+import UserProfile from '../views/UserProfile.vue'
 import routeNames from "./routeNames";
 
 const routes = [
@@ -26,6 +27,14 @@ const routes = [
     path: '/admin-panel',
     name: routeNames.ADMIN_PANEL,
     component: AdminPanel,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/user-profile',
+    name: routeNames.USER_PROFILE,
+    component: UserProfile,
     meta: {
       requiresAuth: true
     }

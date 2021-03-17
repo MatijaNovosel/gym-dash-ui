@@ -3,5 +3,6 @@ export default {
   MEMBERSHIP: "membership",
   LOGIN: "login",
   REGISTER: "register",
-  ADMIN_PANEL: "admin-panel"
+  ADMIN_PANEL: "admin-panel",
+  USER_PROFILE: "user-profile"
 }

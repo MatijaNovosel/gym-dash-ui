@@ -5,7 +5,7 @@ export default {
       username: null,
       email: null,
       token: null,
-      roles: []
+      role: null
     }
   },
   mutations: {

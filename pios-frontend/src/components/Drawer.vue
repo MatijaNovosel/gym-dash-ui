@@ -3,11 +3,14 @@
     v-model="drawerOpen"
     app
     clipped
-    class="elevation-3 grey lighten-3"
+    class="elevation-3"
+    :class="{ 'grey lighten-3': !darkMode }"
     @input="inputChanged"
   >
-    <v-list>
-      <v-list-item>
+    <v-list class="py-0">
+      <v-list-item
+        :to="{ name: RouteNames.USER_PROFILE, params: { id: user.id } }"
+      >
         <v-avatar size="40" color="primary" class="mr-3">
           <span class="white--text">{{ initials(user.username) }}</span>
         </v-avatar>
@@ -48,16 +51,17 @@
 </template>
 
 <script>
-import routeNames from "../router/routeNames";
+import RouteNames from "../router/routeNames";
 import { initials } from "../helpers/index";
 import UserMixin from "../mixins/userMixin";
+import DarkModeMixin from "../mixins/darkModeMixin";
 
 export default {
   name: "drawer",
   props: {
     value: Boolean
   },
-  mixins: [UserMixin],
+  mixins: [UserMixin, DarkModeMixin],
   methods: {
     initials,
     inputChanged(val) {
@@ -69,13 +73,15 @@ export default {
         id: null,
         username: null,
         email: null,
-        token: null
+        token: null,
+        role: null
       });
       this.$emit("show-snackbar", {
         color: "success",
         message: this.$t("logoutSuccess")
       });
       this.$emit("input", false);
+      this.setDarkMode(false);
       this.$router.push({ name: "login" });
     }
   },
@@ -90,12 +96,12 @@ export default {
         {
           text: "Home",
           icon: "mdi-home",
-          route: { name: routeNames.HOME }
+          route: { name: RouteNames.HOME }
         },
         {
           text: "Membership",
           icon: "mdi-credit-card",
-          route: { name: routeNames.MEMBERSHIP }
+          route: { name: RouteNames.MEMBERSHIP }
         }
       ];
 
@@ -103,7 +109,7 @@ export default {
         res.push({
           text: "Admin panel",
           icon: "mdi-account",
-          route: { name: routeNames.ADMIN_PANEL }
+          route: { name: RouteNames.ADMIN_PANEL }
         });
       }
 
@@ -111,7 +117,8 @@ export default {
     }
   },
   data: () => ({
-    drawerOpen: false
+    drawerOpen: false,
+    RouteNames
   })
 };
 </script>

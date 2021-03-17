@@ -1,5 +1,12 @@
 <template>
-  <v-app-bar app class="white black--text elevation-1" clipped-left>
+  <v-app-bar
+    app
+    :class="{
+      white: !darkMode
+    }"
+    class="elevation-1"
+    clipped-left
+  >
     <v-app-bar-nav-icon @click="$emit('toggle-drawer')" />
     <v-icon>mdi-weight-lifter</v-icon>
     <v-list-item>
@@ -17,16 +24,33 @@
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
+    <v-spacer />
+    <dark-mode-switch v-model="darkModeSwitchVal" @input="darkModeValChanged" />
   </v-app-bar>
 </template>
 
 <script>
+import DarkModeSwitch from "./DarkModeSwitch.vue";
+import debounce from "debounce";
+import DarkModeMixin from "../mixins/darkModeMixin";
+
 export default {
   name: "app-bar",
+  components: {
+    DarkModeSwitch
+  },
+  mixins: [DarkModeMixin],
+  methods: {
+    darkModeValChanged: debounce(function() {
+      this.setDarkMode(this.darkModeSwitchVal);
+    }, 1500)
+  },
+  created() {
+    this.darkModeSwitchVal = this.darkMode;
+  },
   data: () => ({
-    appVersion: process.env.PACKAGE_VERSION
+    appVersion: process.env.PACKAGE_VERSION,
+    darkModeSwitchVal: false
   })
 };
 </script>
-
-<style></style>

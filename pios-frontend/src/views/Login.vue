@@ -127,14 +127,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["setUser"]),
+    ...mapActions(["setUser", "setDarkMode", "setLocale"]),
     async login() {
       const success = await this.$refs.observer.validate();
       if (success) {
         this.loading = true;
-
         const response = await AuthService.login(this.username, this.password);
-
         if (response.status >= 400) {
           const { data } = response;
           this.$emit("show-snackbar", {
@@ -146,6 +144,8 @@ export default {
           const {
             data: { data }
           } = response;
+          this.setDarkMode(data.preferences.darkMode);
+          this.setLocale(data.preferences.locale);
           this.setUser({
             id: data.id,
             username: this.username,

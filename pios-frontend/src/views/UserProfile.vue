@@ -45,7 +45,7 @@
                   />
                 </v-col>
                 <v-col cols="12" class="text-right">
-                  <v-btn small color="primary">
+                  <v-btn @click="savePersonalInfo" small color="primary">
                     {{ $t("save") }}
                   </v-btn>
                 </v-col>
@@ -70,7 +70,7 @@
                   />
                 </v-col>
                 <v-col cols="12" class="text-right">
-                  <v-btn small color="primary">
+                  <v-btn @click="saveAppSettings" small color="primary">
                     {{ $t("save") }}
                   </v-btn>
                 </v-col>
@@ -85,15 +85,22 @@
 
 <script>
 import UserMixin from "../mixins/userMixin";
+import DarkModeMixin from "../mixins/darkModeMixin";
+import LocaleMixin from "../mixins/localeMixin";
+// import UserService from "../services/userService";
 import { LOCALE } from "../constants/enumerations";
 import { selectItemArrayFromEnum } from "../helpers/index";
 
 export default {
   name: "UserProfile",
-  mixins: [UserMixin],
+  mixins: [UserMixin, LocaleMixin, DarkModeMixin],
   methods: {
-    save() {
-      //
+    saveAppSettings() {
+      // await UserService.updatePreference(this.darkMode, this.locale);
+      // this.$i18n.locale = this.locale.toLowerCase();
+    },
+    savePersonalInfo() {
+      // Save personal info here
     }
   },
   created() {

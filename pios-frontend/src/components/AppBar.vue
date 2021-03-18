@@ -38,6 +38,7 @@ import DarkModeSwitch from "./DarkModeSwitch.vue";
 import debounce from "debounce";
 import DarkModeMixin from "../mixins/darkModeMixin";
 import UserMixin from "../mixins/userMixin";
+import UserService from "../services/userService";
 
 export default {
   name: "app-bar",
@@ -46,7 +47,8 @@ export default {
   },
   mixins: [DarkModeMixin, UserMixin],
   methods: {
-    darkModeValChanged: debounce(function() {
+    darkModeValChanged: debounce(async function() {
+      await UserService.updatePreference(this.darkModeSwitchVal, "HR");
       this.setDarkMode(this.darkModeSwitchVal);
     }, 750)
   },

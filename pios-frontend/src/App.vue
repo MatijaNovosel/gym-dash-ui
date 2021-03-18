@@ -28,6 +28,7 @@ import Drawer from "./components/Drawer";
 import AppBar from "./components/AppBar";
 import RouteNames from "./router/routeNames";
 import DarkModeMixin from "./mixins/darkModeMixin";
+import LocaleMixin from "./mixins/localeMixin";
 
 export default {
   name: "App",
@@ -35,7 +36,7 @@ export default {
     Drawer,
     AppBar
   },
-  mixins: [DarkModeMixin],
+  mixins: [DarkModeMixin, LocaleMixin],
   methods: {
     showSnackbar(data) {
       this.snackbarMessage = data.message;
@@ -48,6 +49,7 @@ export default {
   },
   updated() {
     this.$vuetify.theme.dark = this.darkMode;
+    // this.$i18n.locale = this.user.settings.locale;
   },
   watch: {
     darkMode: {

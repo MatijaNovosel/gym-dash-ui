@@ -6,5 +6,8 @@ export default {
       darkMode,
       locale
     });
+  },
+  async getAllUsers() {
+    return await axios.get("/user");
   }
 };

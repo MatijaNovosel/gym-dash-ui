@@ -38,13 +38,18 @@ export default {
       EN: "Engleski",
       HR: "Hrvatski"
     },
-    membershipDuration: "Trajanje članstva", 
+    membershipDuration: "Trajanje članstva",
     membershipDurationVals: {
       MONTH: "Mjesec dana",
       HALF_YEAR: "Pola godine",
       YEAR: "Godinu dana"
     },
+    roles: {
+      ROLE_ADMIN: "Administrator",
+      ROLE_USER: "Korisnik"
+    },
     pay: "Plati",
-    search: "Pretraži"
+    search: "Pretraži",
+    role: "Uloga"
   }
 }

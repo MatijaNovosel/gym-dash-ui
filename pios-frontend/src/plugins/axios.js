@@ -6,10 +6,9 @@ import store from '../store/index';
 Vue.prototype.$axios = axios
 
 axios.interceptors.request.use((config) => {
-  config.mode = "cors";
   config.url = API_URL + config.url;
   config.validateStatus = false;
-  config.headers.common['Authorization'] = store.state.user.token && `Bearer ${store.state.user.token}`;
+  config.headers.common['Authorization'] = store.getters.user.token && `Bearer ${store.getters.user.token}`;
   return config;
 }, function (error) {
   return Promise.reject(error);

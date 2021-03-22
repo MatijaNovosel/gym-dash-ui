@@ -27,7 +27,7 @@
             v-model="searchInput.type"
           />
         </v-col>
-        <v-col cols="12">
+        <v-col cols="12" v-if="!isAdmin">
           <v-switch
             @change="search"
             v-model="searchInput.onlyMyEquipment"
@@ -36,6 +36,14 @@
             label="Show only my equipment"
           />
         </v-col>
+        <v-col cols="12" v-else class="text-right">
+          <v-btn color="primary" small class="mr-3">
+            New equipment type
+          </v-btn>
+          <v-btn color="success" small>
+            New equipment
+          </v-btn>
+        </v-col>
       </v-row>
     </v-col>
     <template v-for="eq in equipment">
@@ -43,9 +51,9 @@
         <v-card outlined rounded="lg">
           <v-card-title>
             {{ eq.name }}
-            <span class="grey--text text--darken-1 text-caption ml-1"
-              >({{ eq.type }})</span
-            >
+            <span class="grey--text text--darken-1 text-caption ml-1">
+              ({{ eq.type }})
+            </span>
           </v-card-title>
           <v-card-subtitle>
             <template v-if="eq.userId == null">
@@ -53,12 +61,6 @@
                 mdi-check-circle
               </v-icon>
               Available
-            </template>
-            <template v-else-if="eq.userId == user.id">
-              <v-icon color="primary" class="mt-n1" small>
-                mdi-account-circle
-              </v-icon>
-              Reserved by you
             </template>
             <template v-else>
               <v-icon color="red" class="mt-n1" small>
@@ -70,6 +72,7 @@
           <v-divider />
           <v-card-text class="text-right">
             <v-btn
+              v-if="!isAdmin"
               :disabled="
                 eq.userId && (eq.userId == user.id || eq.userId != user.id)
               "
@@ -126,6 +129,20 @@ export default {
         name: "Dumbbell #3",
         type: "Dumbbell 15kg",
         typeId: 3,
+        userId: null,
+        userName: null
+      },
+      {
+        name: "Dumbbell #4",
+        type: "Dumbbell 20kg",
+        typeId: 4,
+        userId: null,
+        userName: null
+      },
+      {
+        name: "Dumbbell #5",
+        type: "Dumbbell 25kg",
+        typeId: 5,
         userId: null,
         userName: null
       }

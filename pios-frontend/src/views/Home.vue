@@ -39,6 +39,10 @@
             mdi-chevron-right
           </v-icon>
         </v-btn>
+        <v-spacer />
+        <v-btn small color="primary" v-if="!isAdmin">
+          New reservation
+        </v-btn>
       </v-toolbar>
       <v-sheet height="600">
         <v-calendar
@@ -87,10 +91,11 @@
 
 <script>
 import DarkModeMixin from "../mixins/darkModeMixin";
+import UserMixin from "../mixins/userMixin";
 
 export default {
   name: "Home",
-  mixins: [DarkModeMixin],
+  mixins: [DarkModeMixin, UserMixin],
   data: () => ({
     focus: "",
     type: "month",

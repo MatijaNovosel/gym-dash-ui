@@ -97,6 +97,11 @@ export default {
           text: "Home",
           icon: "mdi-home",
           route: { name: RouteNames.HOME }
+        },
+        {
+          text: "Equipment",
+          icon: "mdi-dumbbell",
+          route: { name: RouteNames.EQUIPMENT }
         }
       ];
 
@@ -114,11 +119,6 @@ export default {
               text: "Membership",
               icon: "mdi-credit-card",
               route: { name: RouteNames.MEMBERSHIP }
-            },
-            {
-              text: "Equipment",
-              icon: "mdi-dumbbell",
-              route: { name: RouteNames.EQUIPMENT }
             }
           ]
         ];

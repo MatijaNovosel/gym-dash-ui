@@ -65,7 +65,7 @@
                     item-text="text"
                     item-value="value"
                     :items="localeItems"
-                    v-model="locale"
+                    v-model="selectedLocale"
                     label="Locale"
                   />
                 </v-col>
@@ -106,7 +106,7 @@ export default {
   created() {
     this.username = this.user.username;
     this.email = this.user.email;
-    this.locale = this.localeItems[1];
+    this.selectedLocale = this.localeItems[1];
   },
   computed: {
     localeItems() {
@@ -115,7 +115,7 @@ export default {
   },
   data: () => ({
     tab: 0,
-    locale: null,
+    selectedLocale: null,
     username: null,
     email: null,
     showPassword: false

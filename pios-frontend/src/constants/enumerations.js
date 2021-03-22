@@ -5,8 +5,8 @@ export const PAY_TYPE = {
 };
 
 export const AUTH_ROLE = {
-  USER: 1,
-  ADMIN: 2
+  ROLE_USER: 1,
+  ROLE_ADMIN: 2
 };
 
 export const LOCALE = {

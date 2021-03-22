@@ -44,7 +44,12 @@ export default {
       HALF_YEAR: "Half year",
       YEAR: "Year"
     },
+    roles: {
+      ROLE_ADMIN: "Admin",
+      ROLE_USER: "User"
+    },
     pay: "Pay",
-    search: "Search"
+    search: "Search",
+    role: "Role"
   }
 }

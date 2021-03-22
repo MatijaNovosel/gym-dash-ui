@@ -44,6 +44,7 @@ export default {
       HALF_YEAR: "Pola godine",
       YEAR: "Godinu dana"
     },
-    pay: "Plati"
+    pay: "Plati",
+    search: "Pretraži"
   }
 }

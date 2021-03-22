@@ -44,6 +44,7 @@ export default {
       HALF_YEAR: "Half year",
       YEAR: "Year"
     },
-    pay: "Pay"
+    pay: "Pay",
+    search: "Search"
   }
 }

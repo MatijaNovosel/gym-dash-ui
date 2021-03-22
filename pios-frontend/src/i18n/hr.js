@@ -50,6 +50,10 @@ export default {
     },
     pay: "Plati",
     search: "Pretraži",
-    role: "Uloga"
+    role: "Uloga",
+    create: "Kreiraj",
+    equipmentType: "Tip opreme",
+    equipmentName: "Ime opreme",
+    newEquipmentTypeName: "Ime novog tipa opreme"
   }
 }

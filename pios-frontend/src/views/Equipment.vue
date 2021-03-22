@@ -37,10 +37,10 @@
           />
         </v-col>
         <v-col cols="12" v-else class="text-right">
-          <v-btn color="primary" small class="mr-3">
+          <v-btn color="primary" small class="mr-3" @click="newEquipmentTypeDialog = true">
             New equipment type
           </v-btn>
-          <v-btn color="success" small>
+          <v-btn color="success" small @click="newEquipmentDialog = true">
             New equipment
           </v-btn>
         </v-col>
@@ -93,22 +93,163 @@
         </v-card>
       </v-col>
     </template>
+    <header-dialog
+      max-width="50%"
+      v-model="newEquipmentTypeDialog"
+      title="New equipment type"
+      @close="resetNewEquipmentTypeDialog"
+    >
+      <validation-observer ref="newEquipmentTypeForm">
+        <form @submit.prevent="addNewEquipmentType">
+          <v-row class="mt-1">
+            <v-col cols="12">
+              <validation-provider
+                vid="newEquipmentTypeName"
+                :name="$t('newEquipmentTypeName')"
+                rules="required"
+                v-slot="{ errors, valid, untouched, required, failed }"
+              >
+                <v-text-field
+                  v-model="newEquipmentTypeName"
+                  :error-messages="errors"
+                  :hide-details="valid || (untouched && !failed)"
+                  dense
+                >
+                  <template #label>
+                    <required-icon v-show="required" />
+                    <span>{{ $t("newEquipmentTypeName") }}</span>
+                  </template>
+                </v-text-field>
+              </validation-provider>
+            </v-col>
+            <v-col cols="12" class="text-center text-md-right mt-2">
+              <v-btn
+                :loading="newEquipmentTypeLoading"
+                :disabled="newEquipmentTypeLoading"
+                small
+                type="submit"
+                color="primary"
+              >
+                {{ $t("create") }}
+              </v-btn>
+            </v-col>
+          </v-row>
+        </form>
+      </validation-observer>
+    </header-dialog>
+    <header-dialog
+      max-width="50%"
+      v-model="newEquipmentDialog"
+      title="New equipment"
+      @close="resetNewEquipmentDialog"
+    >
+      <validation-observer ref="newEquipmentForm">
+        <form @submit.prevent="addNewEquipment">
+          <v-row class="mt-1">
+            <v-col cols="12">
+              <validation-provider
+                vid="newEquipmentType"
+                :name="$t('equipmentType')"
+                rules="required"
+                v-slot="{ errors, valid, untouched, required, failed }"
+              >
+                <v-select
+                  :error-messages="errors"
+                  :hide-details="valid || (untouched && !failed)"
+                  dense
+                  item-text="text"
+                  item-value="value"
+                  return-object
+                  :items="equipmentTypes"
+                  v-model="newEquipment.type"
+                  clearable
+                >
+                  <template #label>
+                    <required-icon v-show="required" />
+                    <span>{{ $t("equipmentType") }}</span>
+                  </template>
+                </v-select>
+              </validation-provider>
+            </v-col>
+            <v-col cols="12">
+              <validation-provider
+                vid="newEquipmentName"
+                :name="$t('equipmentName')"
+                rules="required"
+                v-slot="{ errors, valid, untouched, required, failed }"
+              >
+                <v-text-field
+                  v-model="newEquipment.name"
+                  :error-messages="errors"
+                  :hide-details="valid || (untouched && !failed)"
+                  dense
+                >
+                  <template #label>
+                    <required-icon v-show="required" />
+                    <span>{{ $t("equipmentName") }}</span>
+                  </template>
+                </v-text-field>
+              </validation-provider>
+            </v-col>
+            <v-col cols="12" class="text-center text-md-right mt-2">
+              <v-btn
+                :loading="newEquipmentLoading"
+                :disabled="newEquipmentLoading"
+                small
+                type="submit"
+                color="primary"
+              >
+                {{ $t("create") }}
+              </v-btn>
+            </v-col>
+          </v-row>
+        </form>
+      </validation-observer>
+    </header-dialog>
   </v-row>
 </template>
 
 <script>
 import debounce from "debounce";
 import UserMixin from "../mixins/userMixin";
+import HeaderDialog from "../components/HeaderDialog";
 
 export default {
   name: "Equipment",
   mixins: [UserMixin],
+  components: {
+    HeaderDialog
+  },
   methods: {
     search: debounce(async function() {
       // Search equipment here
-    }, 750)
+    }, 750),
+    addNewEquipment() {
+      //
+    },
+    addNewEquipmentType() {
+      //
+    },
+    resetNewEquipmentDialog() {
+      this.newEquipment.type = null;
+      this.newEquipment.name = null;
+      this.$refs.newEquipmentForm.reset();
+    },
+    resetNewEquipmentTypeDialog() {
+      this.newEquipmentTypeName = null;
+      this.$refs.newEquipmentTypeForm.reset();
+    }
   },
   data: () => ({
+    newEquipment: {
+      type: null,
+      name: null
+    },
+    newEquipmentTypeName: null,
+    newEquipmentLoading: false,
+    newEquipmentTypeLoading: false,
+    newEquipmentDialog: false,
+    newEquipmentTypeDialog: false,
     searching: false,
     equipment: [
       {

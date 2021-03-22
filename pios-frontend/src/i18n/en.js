@@ -50,6 +50,10 @@ export default {
     },
     pay: "Pay",
     search: "Search",
-    role: "Role"
+    role: "Role",
+    create: "Create",
+    equipmentType: "Equipment type",
+    equipmentName: "Equipment name",
+    newEquipmentTypeName: "New equipment type name"
   }
 }

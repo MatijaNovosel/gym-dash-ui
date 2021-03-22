@@ -92,7 +92,7 @@ export default {
   },
   computed: {
     items() {
-      const res = [
+      let res = [
         {
           text: "Home",
           icon: "mdi-home",
@@ -107,11 +107,21 @@ export default {
           route: { name: RouteNames.ADMIN_PANEL }
         });
       } else {
-        res.push({
-          text: "Membership",
-          icon: "mdi-credit-card",
-          route: { name: RouteNames.MEMBERSHIP }
-        });
+        res = [
+          ...res,
+          ...[
+            {
+              text: "Membership",
+              icon: "mdi-credit-card",
+              route: { name: RouteNames.MEMBERSHIP }
+            },
+            {
+              text: "Equipment",
+              icon: "mdi-dumbbell",
+              route: { name: RouteNames.EQUIPMENT }
+            }
+          ]
+        ];
       }
 
       return res;

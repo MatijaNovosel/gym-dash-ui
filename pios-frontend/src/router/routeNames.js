@@ -4,5 +4,6 @@ export default {
   LOGIN: "login",
   REGISTER: "register",
   ADMIN_PANEL: "admin-panel",
-  USER_PROFILE: "user-profile"
+  USER_PROFILE: "user-profile",
+  EQUIPMENT: "equipment"
 }

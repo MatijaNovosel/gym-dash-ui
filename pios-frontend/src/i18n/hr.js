@@ -54,6 +54,8 @@ export default {
     create: "Kreiraj",
     equipmentType: "Tip opreme",
     equipmentName: "Ime opreme",
-    newEquipmentTypeName: "Ime novog tipa opreme"
+    newEquipmentTypeName: "Ime novog tipa opreme",
+    newPassword: "Nova lozinka",
+    passwordChanged: "Lozinka promijenjena"
   }
 }

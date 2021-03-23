@@ -4,6 +4,7 @@ import Equipment from '../views/Equipment.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import AdminPanel from '../views/AdminPanel.vue'
+import Error from '../views/Error.vue'
 import UserProfile from '../views/UserProfile.vue'
 import routeNames from "./routeNames";
 
@@ -60,6 +61,14 @@ const routes = [
     path: '/register',
     name: routeNames.REGISTER,
     component: Register,
+    meta: {
+      guest: true
+    }
+  },
+  {
+    path: "/:pathMatch(.*)",
+    name: routeNames.ERROR,
+    component: Error,
     meta: {
       guest: true
     }

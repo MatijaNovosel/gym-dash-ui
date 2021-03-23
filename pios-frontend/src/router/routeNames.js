@@ -5,5 +5,6 @@ export default {
   REGISTER: "register",
   ADMIN_PANEL: "admin-panel",
   USER_PROFILE: "user-profile",
-  EQUIPMENT: "equipment"
+  EQUIPMENT: "equipment",
+  ERROR: "error"
 }

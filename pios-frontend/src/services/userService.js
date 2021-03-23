@@ -9,5 +9,10 @@ export default {
   },
   async getAllUsers() {
     return await axios.get("/user");
+  },
+  async changePassword(newPassword) {
+    return await axios.put("/user/change-password", {
+      newPassword
+    });
   }
 };

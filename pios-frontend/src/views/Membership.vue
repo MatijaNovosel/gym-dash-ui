@@ -72,7 +72,7 @@
         </template>
         <template #item.typeOfPurchase="{ item }">
           {{
-            $t(`typeOfPurchase.${getKeyByValue(PAY_TYPE, item.typeOfPurchase)}`)
+            $t(`typeOfPurchase.${getKeyByValue(PURCHASE_TYPE, item.typeOfPurchase)}`)
           }}
         </template>
         <template #item.membershipDuration="{ item }">
@@ -178,7 +178,7 @@
 
 <script>
 import { add, format, isBefore } from "date-fns";
-import { PAY_TYPE, MEMBERSHIP_DURATION } from "../constants/enumerations";
+import { PURCHASE_TYPE, MEMBERSHIP_DURATION } from "../constants/enumerations";
 import {
   getKeyByValue,
   download,
@@ -292,7 +292,7 @@ export default {
     }
   },
   data: () => ({
-    PAY_TYPE,
+    PURCHASE_TYPE,
     MEMBERSHIP_DURATION,
     dialog: false,
     payDialog: false,
@@ -301,32 +301,32 @@ export default {
     items: [
       {
         purchasedAt: new Date(),
-        typeOfPurchase: PAY_TYPE.CASH,
+        typeOfPurchase: PURCHASE_TYPE.CASH,
         membershipDuration: MEMBERSHIP_DURATION.MONTH,
         amount: 250
       },
       {
         purchasedAt: new Date(1612300931 * 1000),
         membershipDuration: MEMBERSHIP_DURATION.MONTH,
-        typeOfPurchase: PAY_TYPE.CASH,
+        typeOfPurchase: PURCHASE_TYPE.CASH,
         amount: 250
       },
       {
         purchasedAt: new Date(1609536131 * 1000),
         membershipDuration: MEMBERSHIP_DURATION.MONTH,
-        typeOfPurchase: PAY_TYPE.ONLINE,
+        typeOfPurchase: PURCHASE_TYPE.ONLINE,
         amount: 175
       },
       {
         purchasedAt: new Date(1591129331 * 1000),
         membershipDuration: MEMBERSHIP_DURATION.MONTH,
-        typeOfPurchase: PAY_TYPE.CREDIT_CARD,
+        typeOfPurchase: PURCHASE_TYPE.CREDIT_CARD,
         amount: 250
       },
       {
         purchasedAt: new Date(1332021453 * 1000),
         membershipDuration: MEMBERSHIP_DURATION.YEAR,
-        typeOfPurchase: PAY_TYPE.CREDIT_CARD,
+        typeOfPurchase: PURCHASE_TYPE.CREDIT_CARD,
         amount: 2500
       }
     ]

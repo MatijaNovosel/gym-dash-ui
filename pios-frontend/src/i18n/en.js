@@ -54,6 +54,8 @@ export default {
     create: "Create",
     equipmentType: "Equipment type",
     equipmentName: "Equipment name",
-    newEquipmentTypeName: "New equipment type name"
+    newEquipmentTypeName: "New equipment type name",
+    newPassword: "New password",
+    passwordChanged: "Password changed"
   }
 }

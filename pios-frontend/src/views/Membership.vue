@@ -35,7 +35,7 @@
             color="primary"
             small
           >
-            Extend
+            {{ $t("extendMembership") }}
           </v-btn>
           <v-btn
             @click="dialog = true"
@@ -43,7 +43,7 @@
             color="error"
             small
           >
-            Cancel
+            {{ $t("cancelMembership") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -72,7 +72,12 @@
         </template>
         <template #item.typeOfPurchase="{ item }">
           {{
-            $t(`typeOfPurchase.${getKeyByValue(PURCHASE_TYPE, item.typeOfPurchase)}`)
+            $t(
+              `typeOfPurchase.${getKeyByValue(
+                PURCHASE_TYPE,
+                item.typeOfPurchase
+              )}`
+            )
           }}
         </template>
         <template #item.membershipDuration="{ item }">
@@ -111,12 +116,12 @@
       @no="dialog = false"
       @yes="cancelMembership"
       v-model="dialog"
-      title="Are you sure?"
+      :title="$t('areYouSure') + '?'"
     />
     <header-dialog
       max-width="50%"
       v-model="payDialog"
-      title="Extend membership"
+      :title="$t('extendMembership')"
       @close="resetPayDialog"
     >
       <validation-observer ref="observer">

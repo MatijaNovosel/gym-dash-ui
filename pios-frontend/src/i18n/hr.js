@@ -18,7 +18,7 @@ export default {
     typeOfPurchase: {
       ONLINE: "Preko interneta",
       CASH: "Gotovinom",
-      CREDIT_CARD: "Credit card"
+      CREDIT_CARD: "Kreditnom karticom"
     },
     registerSuccess: "Uspješno ste stvorili račun",
     loginSuccess: "Uspješno ste prijavljeni",
@@ -56,6 +56,39 @@ export default {
     equipmentName: "Ime opreme",
     newEquipmentTypeName: "Ime novog tipa opreme",
     newPassword: "Nova lozinka",
-    passwordChanged: "Lozinka promijenjena"
+    passwordChanged: "Lozinka promijenjena",
+    month: "Mjesec",
+    week: "Tjedan",
+    day: "Dan",
+    today: "Danas",
+    newReservation: "Novi termin",
+    routes: {
+      home: "Početna",
+      membership: "Članstvo",
+      login: "Prijava",
+      register: "Registracija",
+      adminPanel: "Administratorska ploča",
+      userProfile: "Korisnički profil",
+      equipment: "Oprema",
+      error: "Greška"
+    },
+    adminAccount: "Administratorski račun",
+    logOut: "Odjavite se",
+    personalInfo: "Osobni podaci",
+    appSettings: "Postavke aplikacije",
+    localeVal: "Jezik",
+    cancel: "Odustani",
+    cancelMembership: "Prekini članstvo",
+    extendMembership: "Produlji članstvo",
+    areYouSure: "Jeste li sigurni",
+    name: "Naziv",
+    showOnlyMyEquipment: "Prikaži samo moju opremu",
+    newEquipmentType: "Novi tip opreme",
+    newEquipment: "Nova oprema",
+    available: "Dostupno",
+    reserve: "Rezerviraj",
+    removeReservation: "Ukloni",
+    inUseBy: "Koristi je",
+    preferencesUpdated: "Postavke ažurirane"
   }
 }

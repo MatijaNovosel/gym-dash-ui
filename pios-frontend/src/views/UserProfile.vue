@@ -9,13 +9,13 @@
           <v-icon left class="mr-3">
             mdi-account
           </v-icon>
-          Personal info
+          {{ $t("personalInfo") }}
         </v-tab>
         <v-tab>
           <v-icon left class="mr-3">
             mdi-cogs
           </v-icon>
-          App settings
+          {{ $t("appSettings") }}
         </v-tab>
       </v-tabs>
       <v-divider />
@@ -99,7 +99,7 @@
                     hide-details
                     :items="localeItems"
                     v-model="selectedLocale"
-                    label="Locale"
+                    :label="$t('localeVal')"
                   />
                 </v-col>
                 <v-col cols="12" class="text-right">
@@ -127,12 +127,26 @@ export default {
   mixins: [UserMixin, LocaleMixin, DarkModeMixin],
   methods: {
     async saveAppSettings() {
-      await UserService.updatePreference(
-        this.darkMode,
-        this.selectedLocale.value
-      );
-      this.$i18n.locale = this.selectedLocale.value.toLowerCase();
-      this.setLocale(this.selectedLocale.value);
+      this.loading = true;
+      try {
+        await UserService.updatePreference(
+          this.darkMode,
+          this.selectedLocale.value
+        );
+        this.$i18n.locale = this.selectedLocale.value.toLowerCase();
+        this.setLocale(this.selectedLocale.value);
+        this.$emit("show-snackbar", {
+          color: "success",
+          message: this.$t("preferencesUpdated")
+        });
+      } catch (e) {
+        this.$emit("show-snackbar", {
+          color: "error",
+          message: e.message
+        });
+      } finally {
+        this.loading = false;
+      }
     },
     async saveNewPassword() {
       this.loading = true;
@@ -157,7 +171,9 @@ export default {
   created() {
     this.username = this.user.username;
     this.email = this.user.email;
-    this.selectedLocale = this.localeItems[1];
+    this.selectedLocale = this.localeItems.filter(
+      (x) => x.value == this.locale
+    )[0];
   },
   computed: {
     localeItems() {

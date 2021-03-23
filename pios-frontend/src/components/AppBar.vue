@@ -19,11 +19,11 @@
         <v-list-item-subtitle>
           <span class="text-subtitle-2" v-if="isAdmin">
             <v-icon small color="red">mdi-account</v-icon>
-            Admin account
+            {{ $t("adminAccount") }}
           </span>
           <span class="text-subtitle-2" v-else>
             <v-icon small color="success">mdi-check-circle</v-icon>
-            Membership is valid
+            {{ $t("membershipValid") }}
           </span>
         </v-list-item-subtitle>
       </v-list-item-content>

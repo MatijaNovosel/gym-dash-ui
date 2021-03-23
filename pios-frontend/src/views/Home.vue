@@ -3,7 +3,7 @@
     <v-col>
       <v-toolbar flat>
         <v-btn small color="secondary" @click="setToday">
-          Today
+          {{ $t("today") }}
         </v-btn>
         <v-menu offset-y>
           <template #activator="{ on, attrs }">
@@ -16,13 +16,13 @@
           </template>
           <v-list dense>
             <v-list-item @click="type = 'day'">
-              <v-list-item-title>Day</v-list-item-title>
+              <v-list-item-title>{{ $t("day") }}</v-list-item-title>
             </v-list-item>
             <v-list-item @click="type = 'week'">
-              <v-list-item-title>Week</v-list-item-title>
+              <v-list-item-title>{{ $t("week") }}</v-list-item-title>
             </v-list-item>
             <v-list-item @click="type = 'month'">
-              <v-list-item-title>Month</v-list-item-title>
+              <v-list-item-title>{{ $t("month") }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -41,7 +41,7 @@
         </v-btn>
         <v-spacer />
         <v-btn small color="primary" v-if="!isAdmin">
-          New reservation
+          {{ $t("newReservation") }}
         </v-btn>
       </v-toolbar>
       <v-sheet height="600">
@@ -96,14 +96,18 @@ import UserMixin from "../mixins/userMixin";
 export default {
   name: "Home",
   mixins: [DarkModeMixin, UserMixin],
+  computed: {
+    typeToLabel() {
+      return {
+        month: this.$t("month"),
+        week: this.$t("week"),
+        day: this.$t("day")
+      };
+    }
+  },
   data: () => ({
     focus: "",
     type: "month",
-    typeToLabel: {
-      month: "Month",
-      week: "Week",
-      day: "Day"
-    },
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,

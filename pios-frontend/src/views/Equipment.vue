@@ -7,7 +7,7 @@
             @change="search"
             outlined
             hide-details
-            label="Name"
+            :label="$t('name')"
             dense
             v-model="searchInput.name"
           />
@@ -19,7 +19,7 @@
             item-value="value"
             return-object
             outlined
-            label="Type"
+            :label="$t('equipmentType')"
             hide-details
             multiple
             :items="equipmentTypes"
@@ -33,15 +33,20 @@
             v-model="searchInput.onlyMyEquipment"
             inset
             hide-details
-            label="Show only my equipment"
+            :label="$t('showOnlyMyEquipment')"
           />
         </v-col>
         <v-col cols="12" v-else class="text-right">
-          <v-btn color="primary" small class="mr-3" @click="newEquipmentTypeDialog = true">
-            New equipment type
+          <v-btn
+            color="primary"
+            small
+            class="mr-3"
+            @click="newEquipmentTypeDialog = true"
+          >
+            {{ $t("newEquipmentType") }}
           </v-btn>
           <v-btn color="success" small @click="newEquipmentDialog = true">
-            New equipment
+            {{ $t("newEquipment") }}
           </v-btn>
         </v-col>
       </v-row>
@@ -60,13 +65,13 @@
               <v-icon color="green" class="mt-n1" small>
                 mdi-check-circle
               </v-icon>
-              Available
+              {{ $t("available") }}
             </template>
             <template v-else>
               <v-icon color="red" class="mt-n1" small>
                 mdi-close-circle
               </v-icon>
-              In use by: <span class="font-weight-bold">{{ eq.userName }}</span>
+              {{ $t('inUseBy') }}: <span class="font-weight-bold">{{ eq.userName }}</span>
             </template>
           </v-card-subtitle>
           <v-divider />
@@ -80,14 +85,14 @@
               color="success"
               class="mr-2"
             >
-              Reserve
+              {{ $t("reserve") }}
             </v-btn>
             <v-btn
               :disabled="eq.userId != user.id || eq.userId == null"
               small
               color="error"
             >
-              Remove
+              {{ $t("removeReservation") }}
             </v-btn>
           </v-card-text>
         </v-card>
@@ -96,7 +101,7 @@
     <header-dialog
       max-width="50%"
       v-model="newEquipmentTypeDialog"
-      title="New equipment type"
+      :title="$t('newEquipmentType')"
       @close="resetNewEquipmentTypeDialog"
     >
       <validation-observer ref="newEquipmentTypeForm">
@@ -140,7 +145,7 @@
     <header-dialog
       max-width="50%"
       v-model="newEquipmentDialog"
-      title="New equipment"
+      :title="$t('newEquipment')"
       @close="resetNewEquipmentDialog"
     >
       <validation-observer ref="newEquipmentForm">

@@ -43,7 +43,7 @@
           <v-icon>mdi-logout</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>Log out</v-list-item-title>
+          <v-list-item-title>{{ $t("logOut") }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -94,12 +94,12 @@ export default {
     items() {
       let res = [
         {
-          text: "Home",
+          text: this.$t("routes.home"),
           icon: "mdi-home",
           route: { name: RouteNames.HOME }
         },
         {
-          text: "Equipment",
+          text: this.$t("routes.equipment"),
           icon: "mdi-dumbbell",
           route: { name: RouteNames.EQUIPMENT }
         }
@@ -107,21 +107,16 @@ export default {
 
       if (this.isAdmin) {
         res.push({
-          text: "Admin panel",
+          text: this.$t("routes.adminPanel"),
           icon: "mdi-account",
           route: { name: RouteNames.ADMIN_PANEL }
         });
       } else {
-        res = [
-          ...res,
-          ...[
-            {
-              text: "Membership",
-              icon: "mdi-credit-card",
-              route: { name: RouteNames.MEMBERSHIP }
-            }
-          ]
-        ];
+        res.push({
+          text: this.$t("routes.membership"),
+          icon: "mdi-credit-card",
+          route: { name: RouteNames.MEMBERSHIP }
+        });
       }
 
       return res;

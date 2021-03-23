@@ -45,10 +45,14 @@ export default {
     }
   },
   created() {
-    this.$vuetify.theme.dark = this.darkMode;
+    if (this.shouldShowUi) {
+      this.$vuetify.theme.dark = this.darkMode;
+    }
   },
   updated() {
-    this.$vuetify.theme.dark = this.darkMode;
+    if (this.shouldShowUi) {
+      this.$vuetify.theme.dark = this.darkMode;
+    }
     // this.$i18n.locale = this.user.settings.locale;
   },
   watch: {

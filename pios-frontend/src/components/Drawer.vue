@@ -55,13 +55,14 @@ import RouteNames from "../router/routeNames";
 import { initials } from "../helpers/index";
 import UserMixin from "../mixins/userMixin";
 import DarkModeMixin from "../mixins/darkModeMixin";
+import LocaleMixin from "../mixins/localeMixin";
 
 export default {
   name: "drawer",
   props: {
     value: Boolean
   },
-  mixins: [UserMixin, DarkModeMixin],
+  mixins: [UserMixin, DarkModeMixin, LocaleMixin],
   methods: {
     initials,
     inputChanged(val) {
@@ -82,6 +83,8 @@ export default {
       });
       this.$emit("input", false);
       this.setDarkMode(false);
+      this.setLocale("en");
+      this.$i18n.locale = "en";
       this.$router.push({ name: "login" });
     }
   },

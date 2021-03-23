@@ -9,11 +9,6 @@ export const AUTH_ROLE = {
   ROLE_ADMIN: 2
 };
 
-export const LOCALE = {
-  HR: 1,
-  EN: 2
-};
-
 export const MEMBERSHIP_DURATION = {
   MONTH: 1,
   HALF_YEAR: 2,

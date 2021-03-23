@@ -24,7 +24,7 @@ export default {
     loginSuccess: "Uspješno ste prijavljeni",
     logoutSuccess: "Uspješno ste odjavljeni",
     purchasedAt: "Kupljeno datuma",
-    expiresAt: "Isteklo datuma",
+    expiresAt: "Istječe datuma",
     typeOfPurchaseHeader: "Tip kupnje",
     amount: "Iznos",
     previousMembershipPurchases: "Prijašnje kupnje",

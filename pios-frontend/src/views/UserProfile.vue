@@ -126,9 +126,13 @@ export default {
   name: "UserProfile",
   mixins: [UserMixin, LocaleMixin, DarkModeMixin],
   methods: {
-    saveAppSettings() {
-      // await UserService.updatePreference(this.darkMode, this.locale);
-      // this.$i18n.locale = this.locale.toLowerCase();
+    async saveAppSettings() {
+      await UserService.updatePreference(
+        this.darkMode,
+        this.selectedLocale.value
+      );
+      this.$i18n.locale = this.selectedLocale.value.toLowerCase();
+      this.setLocale(this.selectedLocale.value);
     },
     async saveNewPassword() {
       this.loading = true;
@@ -159,11 +163,11 @@ export default {
     localeItems() {
       return [
         {
-          value: "hr",
+          value: "HR",
           text: this.$t("locale.HR")
         },
         {
-          value: "en",
+          value: "EN",
           text: this.$t("locale.EN")
         }
       ];

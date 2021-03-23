@@ -42,18 +42,19 @@ export default {
       this.snackbarMessage = data.message;
       this.snackbarColor = data.color;
       this.snackbar = true;
+    },
+    updatePreferences() {
+      if (this.shouldShowUi) {
+        this.$vuetify.theme.dark = this.darkMode;
+        this.$i18n.locale = this.locale.toLowerCase();
+      }
     }
   },
   created() {
-    if (this.shouldShowUi) {
-      this.$vuetify.theme.dark = this.darkMode;
-    }
+    this.updatePreferences();
   },
   updated() {
-    if (this.shouldShowUi) {
-      this.$vuetify.theme.dark = this.darkMode;
-    }
-    // this.$i18n.locale = this.user.settings.locale;
+    this.updatePreferences();
   },
   watch: {
     darkMode: {

@@ -30,6 +30,7 @@
                 >
                   <v-text-field
                     v-model="email"
+                    prepend-icon="mdi-email"
                     :error-messages="errors"
                     :hide-details="valid || (untouched && !failed)"
                     dense
@@ -49,6 +50,7 @@
                   v-slot="{ errors, valid, untouched, required, failed }"
                 >
                   <v-text-field
+                    prepend-icon="mdi-account"
                     v-model="username"
                     :error-messages="errors"
                     :hide-details="valid || (untouched && !failed)"
@@ -71,6 +73,7 @@
                   <v-text-field
                     :type="showPassword ? 'text' : 'password'"
                     v-model="password"
+                    prepend-icon="mdi-lock"
                     :error-messages="errors"
                     :hide-details="valid || (untouched && !failed)"
                     dense
@@ -151,7 +154,7 @@ export default {
       const success = await this.$refs.observer.validate();
       if (success) {
         this.loading = true;
-        
+
         const response = await AuthService.register(
           this.username,
           this.email,

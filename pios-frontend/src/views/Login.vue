@@ -29,6 +29,7 @@
                   v-slot="{ errors, valid, untouched, required, failed }"
                 >
                   <v-text-field
+                    prepend-icon="mdi-account"
                     v-model="username"
                     :error-messages="errors"
                     :hide-details="valid || (untouched && !failed)"
@@ -51,6 +52,7 @@
                   <v-text-field
                     :type="showPassword ? 'text' : 'password'"
                     v-model="password"
+                    prepend-icon="mdi-lock"
                     :error-messages="errors"
                     :hide-details="valid || (untouched && !failed)"
                     dense

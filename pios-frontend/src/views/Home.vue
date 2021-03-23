@@ -1,10 +1,7 @@
 <template>
   <v-row>
     <v-col cols="12" class="text-center mt-4">
-      <v-menu
-        :close-on-content-click="false"
-        v-if="$vuetify.breakpoint.sm || $vuetify.breakpoint.xs"
-      >
+      <v-menu :close-on-content-click="false" content-class="elevation-2">
         <template #activator="{ on, attrs }">
           <v-btn
             fab
@@ -102,49 +99,6 @@
         </v-menu>
       </v-sheet>
     </v-col>
-    <v-speed-dial
-      v-if="!($vuetify.breakpoint.sm || $vuetify.breakpoint.xs)"
-      v-model="fab"
-      bottom
-      right
-      fixed
-      direction="left"
-      transition="slide-x-transition"
-    >
-      <template #activator>
-        <v-btn v-model="fab" color="primary darken-2" fab>
-          <v-icon v-if="fab">mdi-close</v-icon>
-          <v-icon v-else>mdi-calendar-text</v-icon>
-        </v-btn>
-      </template>
-      <v-btn small color="secondary" @click="setToday">
-        {{ $t("today") }}
-      </v-btn>
-      <v-menu>
-        <template #activator="{ on, attrs }">
-          <v-btn small color="primary" v-bind="attrs" v-on="on">
-            <span>{{ typeToLabel[type] }}</span>
-            <v-icon right>
-              mdi-menu-down
-            </v-icon>
-          </v-btn>
-        </template>
-        <v-list dense>
-          <v-list-item @click="type = 'day'">
-            <v-list-item-title>{{ $t("day") }}</v-list-item-title>
-          </v-list-item>
-          <v-list-item @click="type = 'week'">
-            <v-list-item-title>{{ $t("week") }}</v-list-item-title>
-          </v-list-item>
-          <v-list-item @click="type = 'month'">
-            <v-list-item-title>{{ $t("month") }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-      <v-btn small color="success" v-if="!isAdmin">
-        {{ $t("newReservation") }}
-      </v-btn>
-    </v-speed-dial>
   </v-row>
 </template>
 

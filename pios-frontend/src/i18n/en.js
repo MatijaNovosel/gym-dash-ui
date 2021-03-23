@@ -88,6 +88,7 @@ export default {
     reserve: "Reserve",
     removeReservation: "Remove",
     inUseBy: "In use by",
-    preferencesUpdated: "Preferences updated"
+    preferencesUpdated: "Preferences updated",
+    displayType: "Display type"
   }
 }

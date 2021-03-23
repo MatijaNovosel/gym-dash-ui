@@ -2,7 +2,7 @@
   <v-row class="mt-0">
     <v-col cols="12">
       <v-row>
-        <v-col cols="6">
+        <v-col cols="12" md="6">
           <v-text-field
             @change="search"
             outlined
@@ -12,7 +12,7 @@
             v-model="searchInput.name"
           />
         </v-col>
-        <v-col cols="6">
+        <v-col cols="12" md="6">
           <v-select
             @change="search"
             item-text="text"
@@ -75,7 +75,7 @@
             </template>
           </v-card-subtitle>
           <v-divider />
-          <v-card-text class="text-right">
+          <v-card-text class="text-center text-md-right">
             <v-btn
               v-if="!isAdmin"
               :disabled="

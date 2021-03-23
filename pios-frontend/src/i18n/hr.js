@@ -89,6 +89,7 @@ export default {
     reserve: "Rezerviraj",
     removeReservation: "Ukloni",
     inUseBy: "Koristi je",
-    preferencesUpdated: "Postavke ažurirane"
+    preferencesUpdated: "Postavke ažurirane",
+    displayType: "Tip prikaza"
   }
 }

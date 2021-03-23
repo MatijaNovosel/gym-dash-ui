@@ -1,0 +1,8 @@
+.full-width {
+  width: 100%;
+}
+
+.top-absolute {
+  position: absolute;
+  right: 15px;
+}

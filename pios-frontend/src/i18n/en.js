@@ -161,6 +161,7 @@ export default {
       }
     },
     successfullyExtendedMembership: "Successfully extended membership",
-    successfullyCancelledMembership: "Successfully cancelled membership"
+    successfullyCancelledMembership: "Successfully cancelled membership",
+    extendMembershipWarning: "Extend your membership to gain access"
   }
 }

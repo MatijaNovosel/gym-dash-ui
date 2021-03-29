@@ -1,3 +1,5 @@
+import { MEMBERSHIP_DURATION } from "../constants/enumerations";
+import { add } from "date-fns";
 import i18n from "../i18n/index";
 
 export function initials(name) {
@@ -50,4 +52,15 @@ export function selectItemArrayFromEnum(translationPrefix, enumeration) {
       });
     });
   return selectItems;
+}
+
+export function calculateExpiresAtDate(date, membershipDuration) {
+  switch (membershipDuration) {
+    case MEMBERSHIP_DURATION.MONTH:
+      return add(new Date(date), { months: 1 });
+    case MEMBERSHIP_DURATION.HALF_YEAR:
+      return add(new Date(date), { months: 6 });
+    case MEMBERSHIP_DURATION.YEAR:
+      return add(new Date(date), { years: 1 });
+  }
 }

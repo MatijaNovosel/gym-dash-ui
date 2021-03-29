@@ -140,6 +140,7 @@ export default {
       badge: "Značka"
     },
     successfullyExtendedMembership: "Uspješno ste produžili članstvo",
-    successfullyCancelledMembership: "Uspješno ste prekinuli članstvo"
+    successfullyCancelledMembership: "Uspješno ste prekinuli članstvo",
+    extendMembershipWarning: "Produžite članstvo kako bi mogli pristupiti"
   }
 }

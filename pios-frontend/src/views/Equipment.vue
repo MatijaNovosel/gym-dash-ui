@@ -71,7 +71,8 @@
               <v-icon color="red" class="mt-n1" small>
                 mdi-close-circle
               </v-icon>
-              {{ $t('inUseBy') }}: <span class="font-weight-bold">{{ eq.userName }}</span>
+              {{ $t("inUseBy") }}:
+              <span class="font-weight-bold">{{ eq.userName }}</span>
             </template>
           </v-card-subtitle>
           <v-divider />
@@ -217,13 +218,28 @@
 <script>
 import debounce from "debounce";
 import UserMixin from "../mixins/userMixin";
+import MembershipMixin from "../mixins/membershipMixin";
 import HeaderDialog from "../components/HeaderDialog";
+import routeNames from "../router/routeNames";
 
 export default {
   name: "Equipment",
-  mixins: [UserMixin],
+  mixins: [UserMixin, MembershipMixin],
   components: {
     HeaderDialog
+  },
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      if (!vm.validMembership) {
+        vm.$emit("show-snackbar", {
+          color: "error",
+          message: vm.$t("extendMembershipWarning")
+        });
+        next({ name: routeNames.HOME });
+      } else {
+        next();
+      }
+    });
   },
   methods: {
     search: debounce(async function() {

@@ -2,18 +2,16 @@
   <v-row>
     <v-col cols="12">
       <v-card :loading="loading" class="rounded-t-lg elevation-2">
-        <template v-if="items.length != 0">
+        <template v-if="memberships.length != 0">
           <v-card-title>
             <v-icon
               class="mr-2"
-              v-text="
-                isMembershipValid ? 'mdi-check-circle' : 'mdi-close-circle'
-              "
-              :color="isMembershipValid ? 'green' : 'red'"
+              v-text="validMembership ? 'mdi-check-circle' : 'mdi-close-circle'"
+              :color="validMembership ? 'green' : 'red'"
             />
             <span>
               {{
-                isMembershipValid
+                validMembership
                   ? $t("membershipValid")
                   : $t("membershipInvalid")
               }}
@@ -22,10 +20,13 @@
           <v-card-subtitle>
             {{
               `${format(
-                new Date(items[0].purchasedAt),
+                new Date(memberships[0].purchasedAt),
                 "dd.MM.yyyy. HH:mm"
               )} - ${format(
-                calculateExpiresAtDate(items[0].purchasedAt, items[0].duration),
+                calculateExpiresAtDate(
+                  memberships[0].purchasedAt,
+                  memberships[0].duration
+                ),
                 "dd.MM.yyyy. HH:mm"
               )}`
             }}
@@ -41,7 +42,7 @@
         <v-card-actions class="justify-center justify-md-end py-4">
           <v-btn
             @click="payDialog = true"
-            :disabled="isMembershipValid"
+            :disabled="validMembership"
             color="primary"
             small
           >
@@ -49,7 +50,7 @@
           </v-btn>
           <v-btn
             @click="dialog = true"
-            :disabled="!isMembershipValid"
+            :disabled="!validMembership"
             color="error"
             small
           >
@@ -65,7 +66,7 @@
       <v-data-table
         dense
         :headers="headers"
-        :items="items"
+        :items="memberships"
         :items-per-page="5"
         class="elevation-2"
       >
@@ -192,19 +193,21 @@
 </template>
 
 <script>
-import { add, format, isBefore } from "date-fns";
+import { add, format } from "date-fns";
 import { PURCHASE_TYPE, MEMBERSHIP_DURATION } from "../constants/enumerations";
 import {
   getKeyByValue,
   download,
   dataUrlToFile,
-  selectItemArrayFromEnum
+  selectItemArrayFromEnum,
+  calculateExpiresAtDate
 } from "../helpers/index";
 import { dummyPdfBase64 } from "../constants/index";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 import HeaderDialog from "../components/HeaderDialog";
 import MembershipService from "../services/membershipService";
 import UserMixin from "../mixins/userMixin";
+import MembershipMixin from "../mixins/membershipMixin";
 
 export default {
   name: "Membership",
@@ -212,42 +215,30 @@ export default {
     ConfirmationDialog,
     HeaderDialog
   },
-  mixins: [UserMixin],
-  created() {
-    this.getData();
-  },
+  mixins: [UserMixin, MembershipMixin],
   methods: {
     add,
     format,
     getKeyByValue,
+    calculateExpiresAtDate,
     async getData() {
       this.loading = true;
       const response = await MembershipService.getAllMembershipsOfUser(
         this.user.id
       );
       if (response.status >= 400) {
-        this.items = [];
+        this.setMemberships([]);
       } else {
         const {
           data: { data }
         } = response;
-        this.items = data;
+        this.setMemberships(data);
       }
       this.loading = false;
     },
     resetPayDialog() {
       this.membershipDuration = null;
       this.$refs.observer.reset();
-    },
-    calculateExpiresAtDate(date, membershipDuration) {
-      switch (membershipDuration) {
-        case MEMBERSHIP_DURATION.MONTH:
-          return add(new Date(date), { months: 1 });
-        case MEMBERSHIP_DURATION.HALF_YEAR:
-          return add(new Date(date), { months: 6 });
-        case MEMBERSHIP_DURATION.YEAR:
-          return add(new Date(date), { years: 1 });
-      }
     },
     async downloadReceipt() {
       const file = await dataUrlToFile(
@@ -258,7 +249,7 @@ export default {
       download(file);
     },
     async cancelMembership() {
-      await MembershipService.deleteMembershipById(this.items[0].id);
+      await MembershipService.deleteMembershipById(this.memberships[0].id);
       this.$emit("show-snackbar", {
         color: "success",
         message: this.$t("successfullyCancelledMembership")
@@ -308,20 +299,6 @@ export default {
       }
       return 0;
     },
-    isMembershipValid() {
-      if (this.items && this.items.length != 0) {
-        return isBefore(
-          new Date(),
-          new Date(
-            this.calculateExpiresAtDate(
-              this.items[0].purchasedAt,
-              this.items[0].duration
-            )
-          )
-        );
-      }
-      return false;
-    },
     headers() {
       return [
         {
@@ -367,8 +344,7 @@ export default {
     dialog: false,
     payDialog: false,
     payLoading: false,
-    membershipDuration: null,
-    items: []
+    membershipDuration: null
   })
 };
 </script>

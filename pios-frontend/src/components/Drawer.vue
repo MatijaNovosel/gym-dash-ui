@@ -25,11 +25,11 @@
     <v-divider />
     <v-list nav dense>
       <v-list-item
+        :disabled="item.disabled"
         exact
         v-for="(item, i) in items"
         :key="i"
         :to="item.route"
-        color="primary"
       >
         <v-list-item-icon>
           <v-icon v-text="item.icon" />
@@ -56,13 +56,14 @@ import { initials } from "../helpers/index";
 import UserMixin from "../mixins/userMixin";
 import DarkModeMixin from "../mixins/darkModeMixin";
 import LocaleMixin from "../mixins/localeMixin";
+import MembershipMixin from "../mixins/membershipMixin";
 
 export default {
   name: "drawer",
   props: {
     value: Boolean
   },
-  mixins: [UserMixin, DarkModeMixin, LocaleMixin],
+  mixins: [UserMixin, DarkModeMixin, LocaleMixin, MembershipMixin],
   methods: {
     initials,
     inputChanged(val) {
@@ -104,6 +105,7 @@ export default {
         {
           text: this.$t("routes.equipment"),
           icon: "mdi-dumbbell",
+          disabled: !this.validMembership,
           route: { name: RouteNames.EQUIPMENT }
         }
       ];

@@ -22,8 +22,18 @@
             {{ $t("adminAccount") }}
           </span>
           <span class="text-subtitle-2" v-else>
-            <v-icon small color="success">mdi-check-circle</v-icon>
-            {{ $t("membershipValid") }}
+            <v-icon
+              small
+              v-text="validMembership ? 'mdi-check-circle' : 'mdi-close-circle'"
+              :color="validMembership ? 'green' : 'red'"
+            />
+            <span>
+              {{
+                validMembership
+                  ? $t("membershipValid")
+                  : $t("membershipInvalid")
+              }}
+            </span>
           </span>
         </v-list-item-subtitle>
       </v-list-item-content>
@@ -39,13 +49,14 @@ import debounce from "debounce";
 import DarkModeMixin from "../mixins/darkModeMixin";
 import UserMixin from "../mixins/userMixin";
 import UserService from "../services/userService";
+import MembershipMixin from "../mixins/membershipMixin";
 
 export default {
   name: "app-bar",
   components: {
     DarkModeSwitch
   },
-  mixins: [DarkModeMixin, UserMixin],
+  mixins: [DarkModeMixin, UserMixin, MembershipMixin],
   methods: {
     darkModeValChanged: debounce(async function() {
       await UserService.updatePreference(this.darkModeSwitchVal, "HR");

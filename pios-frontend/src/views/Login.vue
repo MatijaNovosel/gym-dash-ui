@@ -98,6 +98,7 @@
 
 <script>
 import AuthService from "../services/authService";
+import MembershipService from "../services/membershipService";
 import { mapActions } from "vuex";
 import RouteNames from "../router/routeNames";
 
@@ -129,7 +130,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["setUser", "setDarkMode", "setLocale"]),
+    ...mapActions(["setUser", "setDarkMode", "setLocale", "setMemberships"]),
     async login() {
       const success = await this.$refs.observer.validate();
       if (success) {
@@ -146,6 +147,7 @@ export default {
           const {
             data: { data }
           } = response;
+
           this.setDarkMode(data.preferences.darkMode);
           this.setLocale(data.preferences.locale);
           this.setUser({
@@ -155,10 +157,25 @@ export default {
             token: data.jwtToken,
             role: data.role
           });
+
+          const responseMembership = await MembershipService.getAllMembershipsOfUser(
+            data.id
+          );
+
+          if (response.status >= 400) {
+            this.setMemberships([]);
+          } else {
+            const {
+              data: { data }
+            } = responseMembership;
+            this.setMemberships(data);
+          }
+
           this.$emit("show-snackbar", {
             color: "success",
             message: this.$t("loginSuccess")
           });
+          
           this.$router.push({ name: "home" });
           this.loading = false;
         }

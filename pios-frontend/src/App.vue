@@ -47,6 +47,7 @@ export default {
       if (this.shouldShowUi) {
         this.$vuetify.theme.dark = this.darkMode;
         this.$i18n.locale = this.locale.toLowerCase();
+        this.$vuetify.lang.current = this.locale.toLowerCase();
       }
     }
   },

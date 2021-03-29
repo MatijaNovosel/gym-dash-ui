@@ -134,6 +134,7 @@ export default {
           this.selectedLocale.value
         );
         this.$i18n.locale = this.selectedLocale.value.toLowerCase();
+        this.$vuetify.lang.current = this.selectedLocale.value.toLowerCase();
         this.setLocale(this.selectedLocale.value);
         this.$emit("show-snackbar", {
           color: "success",

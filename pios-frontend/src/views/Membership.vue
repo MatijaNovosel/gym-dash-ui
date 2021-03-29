@@ -1,37 +1,47 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <v-card class="rounded-t-lg elevation-2">
-        <v-card-title>
-          <v-icon
-            class="mr-2"
-            v-text="isMembershipValid ? 'mdi-check-circle' : 'mdi-close-circle'"
-            :color="isMembershipValid ? 'green' : 'red'"
-          />
-          <span>
+      <v-card :loading="loading" class="rounded-t-lg elevation-2">
+        <template v-if="items.length != 0">
+          <v-card-title>
+            <v-icon
+              class="mr-2"
+              v-text="
+                isMembershipValid ? 'mdi-check-circle' : 'mdi-close-circle'
+              "
+              :color="isMembershipValid ? 'green' : 'red'"
+            />
+            <span>
+              {{
+                isMembershipValid
+                  ? $t("membershipValid")
+                  : $t("membershipInvalid")
+              }}
+            </span>
+          </v-card-title>
+          <v-card-subtitle>
             {{
-              isMembershipValid
-                ? $t("membershipValid")
-                : $t("membershipInvalid")
+              `${format(
+                new Date(items[0].purchasedAt),
+                "dd.MM.yyyy. HH:mm"
+              )} - ${format(
+                calculateExpiresAtDate(items[0].purchasedAt, items[0].duration),
+                "dd.MM.yyyy. HH:mm"
+              )}`
             }}
-          </span>
-        </v-card-title>
-        <v-card-subtitle>
-          {{
-            `${format(items[0].purchasedAt, "dd.MM.yyyy. HH:mm")} - ${format(
-              calculateExpiresAtDate(
-                items[0].purchasedAt,
-                items[0].membershipDuration
-              ),
-              "dd.MM.yyyy. HH:mm"
-            )}`
-          }}
-        </v-card-subtitle>
+          </v-card-subtitle>
+        </template>
+        <template v-else>
+          <v-card-title>
+            <v-icon class="mr-2" color="red">mdi-close-circle</v-icon>
+            {{ $t("noMembershipsFound") }}
+          </v-card-title>
+        </template>
         <v-divider />
         <v-card-actions class="justify-center justify-md-end py-4">
           <v-btn
             @click="payDialog = true"
-            :disabled="!isMembershipValid"
+            :disabled="isMembershipValid"
             color="primary"
             small
           >
@@ -60,32 +70,32 @@
         class="elevation-2"
       >
         <template #item.purchasedAt="{ item }">
-          {{ format(item.purchasedAt, "dd.MM.yyyy. HH:mm") }}
+          {{ format(new Date(item.purchasedAt), "dd.MM.yyyy. HH:mm") }}
         </template>
         <template #item.expiresAt="{ item }">
           {{
             format(
-              calculateExpiresAtDate(item.purchasedAt, item.membershipDuration),
+              calculateExpiresAtDate(item.purchasedAt, item.duration),
               "dd.MM.yyyy. HH:mm"
             )
           }}
         </template>
-        <template #item.typeOfPurchase="{ item }">
+        <template #item.purchaseType="{ item }">
           {{
             $t(
               `typeOfPurchase.${getKeyByValue(
                 PURCHASE_TYPE,
-                item.typeOfPurchase
+                item.purchaseType
               )}`
             )
           }}
         </template>
-        <template #item.membershipDuration="{ item }">
+        <template #item.duration="{ item }">
           {{
             $t(
               `membershipDurationVals.${getKeyByValue(
                 MEMBERSHIP_DURATION,
-                item.membershipDuration
+                item.duration
               )}`
             )
           }}
@@ -125,7 +135,7 @@
       @close="resetPayDialog"
     >
       <validation-observer ref="observer">
-        <form @submit.prevent="login">
+        <form @submit.prevent="extendMembership">
           <v-row class="mt-1">
             <v-col cols="12">
               <validation-provider
@@ -193,6 +203,8 @@ import {
 import { dummyPdfBase64 } from "../constants/index";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 import HeaderDialog from "../components/HeaderDialog";
+import MembershipService from "../services/membershipService";
+import UserMixin from "../mixins/userMixin";
 
 export default {
   name: "Membership",
@@ -200,10 +212,29 @@ export default {
     ConfirmationDialog,
     HeaderDialog
   },
+  mixins: [UserMixin],
+  created() {
+    this.getData();
+  },
   methods: {
     add,
     format,
     getKeyByValue,
+    async getData() {
+      this.loading = true;
+      const response = await MembershipService.getAllMembershipsOfUser(
+        this.user.id
+      );
+      if (response.status >= 400) {
+        this.items = [];
+      } else {
+        const {
+          data: { data }
+        } = response;
+        this.items = data;
+      }
+      this.loading = false;
+    },
     resetPayDialog() {
       this.membershipDuration = null;
       this.$refs.observer.reset();
@@ -211,11 +242,11 @@ export default {
     calculateExpiresAtDate(date, membershipDuration) {
       switch (membershipDuration) {
         case MEMBERSHIP_DURATION.MONTH:
-          return add(date, { months: 1 });
+          return add(new Date(date), { months: 1 });
         case MEMBERSHIP_DURATION.HALF_YEAR:
-          return add(date, { months: 6 });
+          return add(new Date(date), { months: 6 });
         case MEMBERSHIP_DURATION.YEAR:
-          return add(date, { years: 1 });
+          return add(new Date(date), { years: 1 });
       }
     },
     async downloadReceipt() {
@@ -226,24 +257,56 @@ export default {
       );
       download(file);
     },
-    cancelMembership() {
-      // Cancel membership call here
+    async cancelMembership() {
+      await MembershipService.deleteMembershipById(this.items[0].id);
+      this.$emit("show-snackbar", {
+        color: "success",
+        message: this.$t("successfullyCancelledMembership")
+      });
+      this.getData();
       this.dialog = false;
+    },
+    async extendMembership() {
+      this.payLoading = true;
+
+      await MembershipService.createMembership({
+        amount: this.formatMembershipDurationAmount(
+          this.membershipDuration.val
+        ),
+        duration: this.membershipDuration.val,
+        purchaseType: PURCHASE_TYPE.ONLINE,
+        purchasedAt: new Date()
+      });
+
+      this.$emit("show-snackbar", {
+        color: "success",
+        message: this.$t("successfullyExtendedMembership")
+      });
+
+      this.payLoading = false;
+
+      this.getData();
+      this.payDialog = false;
+    },
+    formatMembershipDurationAmount(membershipDuration) {
+      switch (membershipDuration) {
+        case MEMBERSHIP_DURATION.MONTH:
+          return 250;
+        case MEMBERSHIP_DURATION.HALF_YEAR:
+          return 1000;
+        case MEMBERSHIP_DURATION.YEAR:
+          return 2500;
+        default:
+          return 0;
+      }
     }
   },
   computed: {
     membershipDurationAmount() {
       if (this.membershipDuration) {
-        switch (this.membershipDuration.val) {
-          case MEMBERSHIP_DURATION.MONTH:
-            return 250;
-          case MEMBERSHIP_DURATION.HALF_YEAR:
-            return 1000;
-          case MEMBERSHIP_DURATION.YEAR:
-            return 2500;
-        }
+        return this.formatMembershipDurationAmount(this.membershipDuration.val);
       }
-      return null;
+      return 0;
     },
     isMembershipValid() {
       if (this.items && this.items.length != 0) {
@@ -252,7 +315,7 @@ export default {
           new Date(
             this.calculateExpiresAtDate(
               this.items[0].purchasedAt,
-              this.items[0].membershipDuration
+              this.items[0].duration
             )
           )
         );
@@ -271,11 +334,12 @@ export default {
         },
         {
           text: this.$t("membershipDuration"),
-          value: "membershipDuration"
+          value: "duration",
+          sortable: false
         },
         {
           text: this.$t("typeOfPurchaseHeader"),
-          value: "typeOfPurchase",
+          value: "purchaseType",
           sortable: false
         },
         {
@@ -297,44 +361,14 @@ export default {
     }
   },
   data: () => ({
+    loading: false,
     PURCHASE_TYPE,
     MEMBERSHIP_DURATION,
     dialog: false,
     payDialog: false,
     payLoading: false,
     membershipDuration: null,
-    items: [
-      {
-        purchasedAt: new Date(),
-        typeOfPurchase: PURCHASE_TYPE.CASH,
-        membershipDuration: MEMBERSHIP_DURATION.MONTH,
-        amount: 250
-      },
-      {
-        purchasedAt: new Date(1612300931 * 1000),
-        membershipDuration: MEMBERSHIP_DURATION.MONTH,
-        typeOfPurchase: PURCHASE_TYPE.CASH,
-        amount: 250
-      },
-      {
-        purchasedAt: new Date(1609536131 * 1000),
-        membershipDuration: MEMBERSHIP_DURATION.MONTH,
-        typeOfPurchase: PURCHASE_TYPE.ONLINE,
-        amount: 175
-      },
-      {
-        purchasedAt: new Date(1591129331 * 1000),
-        membershipDuration: MEMBERSHIP_DURATION.MONTH,
-        typeOfPurchase: PURCHASE_TYPE.CREDIT_CARD,
-        amount: 250
-      },
-      {
-        purchasedAt: new Date(1332021453 * 1000),
-        membershipDuration: MEMBERSHIP_DURATION.YEAR,
-        typeOfPurchase: PURCHASE_TYPE.CREDIT_CARD,
-        amount: 2500
-      }
-    ]
+    items: []
   })
 };
 </script>

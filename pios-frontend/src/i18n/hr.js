@@ -90,6 +90,56 @@ export default {
     removeReservation: "Ukloni",
     inUseBy: "Koristi je",
     preferencesUpdated: "Postavke ažurirane",
-    displayType: "Tip prikaza"
+    displayType: "Tip prikaza",
+    noMembershipsFound: "Nije pronađeno ni jedno članstvo",
+    $vuetify: {
+      carousel: {
+        next: "",
+        prev: ""
+      },
+      close: "x",
+      timePicker: {
+        am: "",
+        pm: ""
+      },
+      fileInput: {
+        counter: "{0} datoteke"
+      },
+      datePicker: {
+        prevMonthAriaLabel: "Prošli mjesec",
+        nextMonthAriaLabel: "Sljedeći mjesec",
+        prevYearAriaLabel: "Prošla godina",
+        nextYearAriaLabel: "Sljedeća godina"
+      },
+      dataIterator: {
+        loadingText: "",
+        pageText: "{0}-{1} od {2}",
+        noResultsText: "Nema podataka",
+        nextPage: "Sljedeća stranica",
+        prevPage: "Prošla stranica"
+      },
+      dataFooter: {
+        itemsPerPageText: "Broj zapisa po stranici:",
+        itemsPerPageAll: "Svi",
+        pageText: "{0}-{1} od {2}",
+        nextPage: "Sljedeća stranica",
+        prevPage: "Prošla stranica"
+      },
+      dataTable: {
+        itemsPerPageText: "Zapisa po stranici:",
+        sortBy: "Sortiraj prema",
+        ariaLabel: {
+          sortNone: "",
+          sortAscending: "Sortiraj uzlazno",
+          sortDescending: "Sortiraj silazno",
+          activateAscending: "Aktiviraj uzlazno",
+          
+        }
+      },
+      noDataText: "Nema podataka",
+      badge: "Značka"
+    },
+    successfullyExtendedMembership: "Uspješno ste produžili članstvo",
+    successfullyCancelledMembership: "Uspješno ste prekinuli članstvo"
   }
 }

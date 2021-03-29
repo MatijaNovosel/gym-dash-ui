@@ -105,8 +105,8 @@
       :title="$t('newEquipmentType')"
       @close="resetNewEquipmentTypeDialog"
     >
-      <validation-observer ref="newEquipmentTypeForm">
-        <form @submit.prevent="addNewEquipmentType">
+      <validation-observer ref="newEquipmentTypeForm" v-slot="{ handleSubmit }">
+        <form @submit.prevent="handleSubmit(addNewEquipmentType)">
           <v-row class="mt-1">
             <v-col cols="12">
               <validation-provider
@@ -149,8 +149,8 @@
       :title="$t('newEquipment')"
       @close="resetNewEquipmentDialog"
     >
-      <validation-observer ref="newEquipmentForm">
-        <form @submit.prevent="addNewEquipment">
+      <validation-observer ref="newEquipmentForm" v-slot="{ handleSubmit }">
+        <form @submit.prevent="handleSubmit(addNewEquipment)">
           <v-row class="mt-1">
             <v-col cols="12">
               <validation-provider

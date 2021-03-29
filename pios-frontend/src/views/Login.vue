@@ -18,8 +18,8 @@
       </div>
       <v-divider />
       <v-card-text class="pt-5">
-        <validation-observer ref="observer">
-          <form @submit.prevent="login">
+        <validation-observer v-slot="{ handleSubmit }">
+          <form @submit.prevent="handleSubmit(login)">
             <v-row>
               <v-col cols="12">
                 <validation-provider
@@ -133,57 +133,54 @@ export default {
   methods: {
     ...mapActions(["setUser", "setDarkMode", "setLocale", "setMemberships"]),
     async login() {
-      const success = await this.$refs.observer.validate();
-      if (success) {
-        this.loading = true;
-        const response = await AuthService.login(this.username, this.password);
-        if (response.status >= 400) {
-          const { data } = response;
-          this.$emit("show-snackbar", {
-            color: "error",
-            message: data.error
-          });
-          this.loading = false;
-        } else {
-          const {
-            data: { data }
-          } = response;
+      this.loading = true;
+      const response = await AuthService.login(this.username, this.password);
+      if (response.status >= 400) {
+        const { data } = response;
+        this.$emit("show-snackbar", {
+          color: "error",
+          message: data.error
+        });
+        this.loading = false;
+      } else {
+        const {
+          data: { data }
+        } = response;
 
-          this.setDarkMode(data.preferences.darkMode);
-          this.setLocale(data.preferences.locale);
-          this.setUser({
-            id: data.id,
-            username: this.username,
-            email: data.email,
-            token: data.jwtToken,
-            role: data.role
-          });
+        this.setDarkMode(data.preferences.darkMode);
+        this.setLocale(data.preferences.locale);
+        this.setUser({
+          id: data.id,
+          username: this.username,
+          email: data.email,
+          token: data.jwtToken,
+          role: data.role
+        });
 
-          if (data.role == AUTH_ROLE.ROLE_USER) {
-            const responseMembership = await MembershipService.getAllMembershipsOfUser(
-              data.id
-            );
+        if (data.role == AUTH_ROLE.ROLE_USER) {
+          const responseMembership = await MembershipService.getAllMembershipsOfUser(
+            data.id
+          );
 
-            if (responseMembership.status >= 400) {
-              this.setMemberships([]);
-            } else {
-              const {
-                data: { data }
-              } = responseMembership;
-              this.setMemberships(data);
-            }
-          } else {
+          if (responseMembership.status >= 400) {
             this.setMemberships([]);
+          } else {
+            const {
+              data: { data }
+            } = responseMembership;
+            this.setMemberships(data);
           }
-
-          this.$emit("show-snackbar", {
-            color: "success",
-            message: this.$t("loginSuccess")
-          });
-
-          this.$router.push({ name: "home" });
-          this.loading = false;
+        } else {
+          this.setMemberships([]);
         }
+
+        this.$emit("show-snackbar", {
+          color: "success",
+          message: this.$t("loginSuccess")
+        });
+
+        this.$router.push({ name: "home" });
+        this.loading = false;
       }
     }
   }

@@ -18,8 +18,8 @@
       </div>
       <v-divider />
       <v-card-text class="pt-5">
-        <validation-observer ref="observer">
-          <form @submit.prevent="register">
+        <validation-observer ref="observer" v-slot="{ handleSubmit }">
+          <form @submit.prevent="handleSubmit(register)">
             <v-row>
               <v-col cols="12">
                 <validation-provider

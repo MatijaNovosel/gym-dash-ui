@@ -77,8 +77,8 @@
       :title="$t('extendMembership')"
       @close="resetPayDialog"
     >
-      <validation-observer ref="observer">
-        <form @submit.prevent="extendMembership">
+      <validation-observer ref="observer" v-slot="{ handleSubmit }">
+        <form @submit.prevent="handleSubmit(extendMembership)">
           <v-row class="mt-1">
             <v-col cols="12">
               <validation-provider

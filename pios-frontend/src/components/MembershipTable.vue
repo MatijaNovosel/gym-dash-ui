@@ -94,11 +94,13 @@ export default {
       return [
         {
           text: this.$t("purchasedAt"),
-          value: "purchasedAt"
+          value: "purchasedAt",
+          sortable: false
         },
         {
           text: this.$t("expiresAt"),
-          value: "expiresAt"
+          value: "expiresAt",
+          sortable: false
         },
         {
           text: this.$t("membershipDuration"),
@@ -112,7 +114,8 @@ export default {
         },
         {
           text: this.$t("amount"),
-          value: "amount"
+          value: "amount",
+          sortable: false
         },
         {
           text: null,

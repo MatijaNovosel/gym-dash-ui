@@ -229,37 +229,6 @@ export default {
       }
       return 0;
     },
-    headers() {
-      return [
-        {
-          text: this.$t("purchasedAt"),
-          value: "purchasedAt"
-        },
-        {
-          text: this.$t("expiresAt"),
-          value: "expiresAt"
-        },
-        {
-          text: this.$t("membershipDuration"),
-          value: "duration",
-          sortable: false
-        },
-        {
-          text: this.$t("typeOfPurchaseHeader"),
-          value: "purchaseType",
-          sortable: false
-        },
-        {
-          text: this.$t("amount"),
-          value: "amount"
-        },
-        {
-          text: null,
-          value: "actions",
-          sortable: false
-        }
-      ];
-    },
     membershipDurationItems() {
       return selectItemArrayFromEnum(
         "membershipDurationVals",

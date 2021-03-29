@@ -180,6 +180,7 @@ export default {
     resetPayDialog() {
       this.membershipDuration = null;
       this.$refs.observer.reset();
+      this.dialog = false;
     },
     async cancelMembership() {
       await MembershipService.deleteMembershipById(this.memberships[0].id);
@@ -187,8 +188,8 @@ export default {
         color: "success",
         message: this.$t("successfullyCancelledMembership")
       });
+      this.resetPayDialog();
       this.getData();
-      this.dialog = false;
     },
     async extendMembership() {
       this.payLoading = true;

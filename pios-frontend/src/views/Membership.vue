@@ -17,7 +17,7 @@
               }}
             </span>
           </v-card-title>
-          <v-card-subtitle>
+          <v-card-subtitle v-if="validMembership">
             {{
               `${format(
                 new Date(memberships[0].purchasedAt),
@@ -156,6 +156,9 @@ export default {
     MembershipTable
   },
   mixins: [UserMixin, MembershipMixin],
+  created() {
+    this.getData();
+  },
   methods: {
     format,
     calculateExpiresAtDate,

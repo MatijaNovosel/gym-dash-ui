@@ -162,6 +162,9 @@ export default {
     },
     successfullyExtendedMembership: "Successfully extended membership",
     successfullyCancelledMembership: "Successfully cancelled membership",
-    extendMembershipWarning: "Extend your membership to gain access"
+    extendMembershipWarning: "Extend your membership to gain access",
+    allAvailableUsers: "All available users",
+    userDetails: "User details",
+    details: "Details"
   }
 }

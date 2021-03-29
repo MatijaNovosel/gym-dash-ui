@@ -164,7 +164,7 @@ export default {
               data.id
             );
 
-            if (response.status >= 400) {
+            if (responseMembership.status >= 400) {
               this.setMemberships([]);
             } else {
               const {

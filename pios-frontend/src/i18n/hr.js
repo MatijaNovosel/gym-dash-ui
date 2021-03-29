@@ -27,7 +27,7 @@ export default {
     expiresAt: "Istječe datuma",
     typeOfPurchaseHeader: "Tip kupnje",
     amount: "Iznos",
-    previousMembershipPurchases: "Prijašnje kupnje",
+    previousMembershipPurchases: "Prijašnje kupnje članstva",
     membershipValid: "Članstvo vrijedi",
     membershipInvalid: "Članstvo isteklo",
     viewReceipt: "Pregledaj račun",
@@ -144,6 +144,9 @@ export default {
     },
     successfullyExtendedMembership: "Uspješno ste produžili članstvo",
     successfullyCancelledMembership: "Uspješno ste prekinuli članstvo",
-    extendMembershipWarning: "Produžite članstvo kako bi mogli pristupiti"
+    extendMembershipWarning: "Produžite članstvo kako bi mogli pristupiti",
+    allAvailableUsers: "Svi dostupni korisnici",
+    userDetails: "Detalji korisnika",
+    details: "Detalji"
   }
 }

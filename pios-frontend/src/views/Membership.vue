@@ -63,65 +63,7 @@
       {{ $t("previousMembershipPurchases") }}
     </v-col>
     <v-col cols="12" class="pt-0">
-      <v-data-table
-        dense
-        :headers="headers"
-        :items="memberships"
-        :items-per-page="5"
-        class="elevation-2"
-      >
-        <template #item.purchasedAt="{ item }">
-          {{ format(new Date(item.purchasedAt), "dd.MM.yyyy. HH:mm") }}
-        </template>
-        <template #item.expiresAt="{ item }">
-          {{
-            format(
-              calculateExpiresAtDate(item.purchasedAt, item.duration),
-              "dd.MM.yyyy. HH:mm"
-            )
-          }}
-        </template>
-        <template #item.purchaseType="{ item }">
-          {{
-            $t(
-              `typeOfPurchase.${getKeyByValue(
-                PURCHASE_TYPE,
-                item.purchaseType
-              )}`
-            )
-          }}
-        </template>
-        <template #item.duration="{ item }">
-          {{
-            $t(
-              `membershipDurationVals.${getKeyByValue(
-                MEMBERSHIP_DURATION,
-                item.duration
-              )}`
-            )
-          }}
-        </template>
-        <template #item.amount="{ item }">
-          {{ item.amount }}
-          HRK
-        </template>
-        <template #item.actions>
-          <v-tooltip top>
-            <template #activator="{ on, attrs }">
-              <v-btn
-                icon
-                color="red"
-                v-on="on"
-                v-bind="attrs"
-                @click="downloadReceipt"
-              >
-                <v-icon>mdi-file-pdf</v-icon>
-              </v-btn>
-            </template>
-            {{ $t("viewReceipt") }}
-          </v-tooltip>
-        </template>
-      </v-data-table>
+      <membership-table :items="memberships" />
     </v-col>
     <confirmation-dialog
       @no="dialog = false"
@@ -193,33 +135,29 @@
 </template>
 
 <script>
-import { add, format } from "date-fns";
+import { format } from "date-fns";
 import { PURCHASE_TYPE, MEMBERSHIP_DURATION } from "../constants/enumerations";
 import {
-  getKeyByValue,
-  download,
-  dataUrlToFile,
   selectItemArrayFromEnum,
   calculateExpiresAtDate
 } from "../helpers/index";
-import { dummyPdfBase64 } from "../constants/index";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 import HeaderDialog from "../components/HeaderDialog";
 import MembershipService from "../services/membershipService";
 import UserMixin from "../mixins/userMixin";
 import MembershipMixin from "../mixins/membershipMixin";
+import MembershipTable from "../components/MembershipTable.vue";
 
 export default {
   name: "Membership",
   components: {
     ConfirmationDialog,
-    HeaderDialog
+    HeaderDialog,
+    MembershipTable
   },
   mixins: [UserMixin, MembershipMixin],
   methods: {
-    add,
     format,
-    getKeyByValue,
     calculateExpiresAtDate,
     async getData() {
       this.loading = true;
@@ -239,14 +177,6 @@ export default {
     resetPayDialog() {
       this.membershipDuration = null;
       this.$refs.observer.reset();
-    },
-    async downloadReceipt() {
-      const file = await dataUrlToFile(
-        `data:application/pdf;base64,${dummyPdfBase64}`,
-        "receipt.pdf",
-        "application/pdf"
-      );
-      download(file);
     },
     async cancelMembership() {
       await MembershipService.deleteMembershipById(this.memberships[0].id);

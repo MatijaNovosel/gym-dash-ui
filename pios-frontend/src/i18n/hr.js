@@ -125,6 +125,9 @@ export default {
         nextPage: "Sljedeća stranica",
         prevPage: "Prošla stranica"
       },
+      calendar: {
+        moreEvents: '{0} dodatnog'
+      },
       dataTable: {
         itemsPerPageText: "Zapisa po stranici:",
         sortBy: "Sortiraj prema",
@@ -133,7 +136,7 @@ export default {
           sortAscending: "Sortiraj uzlazno",
           sortDescending: "Sortiraj silazno",
           activateAscending: "Aktiviraj uzlazno",
-          
+
         }
       },
       noDataText: "Nema podataka",

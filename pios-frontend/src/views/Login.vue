@@ -101,6 +101,7 @@ import AuthService from "../services/authService";
 import MembershipService from "../services/membershipService";
 import { mapActions } from "vuex";
 import RouteNames from "../router/routeNames";
+import { AUTH_ROLE } from "../constants/enumerations";
 
 export default {
   name: "Login",
@@ -158,24 +159,28 @@ export default {
             role: data.role
           });
 
-          const responseMembership = await MembershipService.getAllMembershipsOfUser(
-            data.id
-          );
+          if (data.role == AUTH_ROLE.ROLE_USER) {
+            const responseMembership = await MembershipService.getAllMembershipsOfUser(
+              data.id
+            );
 
-          if (response.status >= 400) {
-            this.setMemberships([]);
+            if (response.status >= 400) {
+              this.setMemberships([]);
+            } else {
+              const {
+                data: { data }
+              } = responseMembership;
+              this.setMemberships(data);
+            }
           } else {
-            const {
-              data: { data }
-            } = responseMembership;
-            this.setMemberships(data);
+            this.setMemberships([]);
           }
 
           this.$emit("show-snackbar", {
             color: "success",
             message: this.$t("loginSuccess")
           });
-          
+
           this.$router.push({ name: "home" });
           this.loading = false;
         }

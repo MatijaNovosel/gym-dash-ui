@@ -34,11 +34,11 @@
               <v-list-item-title>{{ $t("month") }}</v-list-item-title>
             </v-list-item>
           </v-list-group>
-          <v-list-item v-if="!isAdmin">
-            <v-list-item-title>{{ $t("newReservation") }}</v-list-item-title>
-          </v-list-item>
           <v-list-item @click="setToday">
             <v-list-item-title>{{ $t("today") }}</v-list-item-title>
+          </v-list-item>
+          <v-list-item v-if="!isAdmin" :disabled="!validMembership">
+            <v-list-item-title>{{ $t("newReservation") }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -105,10 +105,11 @@
 <script>
 import DarkModeMixin from "../mixins/darkModeMixin";
 import UserMixin from "../mixins/userMixin";
+import MembershipMixin from "../mixins/membershipMixin";
 
 export default {
   name: "Home",
-  mixins: [DarkModeMixin, UserMixin],
+  mixins: [DarkModeMixin, UserMixin, MembershipMixin],
   computed: {
     typeToLabel() {
       return {

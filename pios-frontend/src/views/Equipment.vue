@@ -15,9 +15,9 @@
         <v-col cols="12" md="6">
           <v-select
             @change="search"
-            item-text="text"
-            item-value="value"
-            return-object
+            item-text="name"
+            item-value="id"
+            :return-object="false"
             outlined
             :label="$t('equipmentType')"
             hide-details
@@ -163,8 +163,8 @@
                   :error-messages="errors"
                   :hide-details="valid || (untouched && !failed)"
                   dense
-                  item-text="text"
-                  item-value="value"
+                  item-text="name"
+                  item-value="id"
                   return-object
                   :items="equipmentTypes"
                   v-model="newEquipment.type"
@@ -221,12 +221,16 @@ import UserMixin from "../mixins/userMixin";
 import MembershipMixin from "../mixins/membershipMixin";
 import HeaderDialog from "../components/HeaderDialog";
 import routeNames from "../router/routeNames";
+import EquipmentService from "../services/equipmentService";
 
 export default {
   name: "Equipment",
   mixins: [UserMixin, MembershipMixin],
   components: {
     HeaderDialog
+  },
+  created() {
+    this.getEquipmentTypes();
   },
   beforeRouteEnter(to, from, next) {
     next((vm) => {
@@ -242,23 +246,39 @@ export default {
     });
   },
   methods: {
+    async getEquipmentTypes() {
+      const {
+        data: { data }
+      } = await EquipmentService.getAllTypes();
+      this.equipmentTypes = data;
+    },
     search: debounce(async function() {
       // Search equipment here
     }, 750),
     addNewEquipment() {
       //
     },
-    addNewEquipmentType() {
-      //
+    async addNewEquipmentType() {
+      this.newEquipmentTypeLoading = true;
+      await EquipmentService.createEquipmentType(this.newEquipmentTypeName);
+      this.$emit("show-snackbar", {
+        color: "success",
+        message: this.$t("equipmentTypeCreated")
+      });
+      this.newEquipmentTypeLoading = false;
+      this.resetNewEquipmentTypeDialog();
     },
     resetNewEquipmentDialog() {
       this.newEquipment.type = null;
       this.newEquipment.name = null;
       this.$refs.newEquipmentForm.reset();
+      this.newEquipmentDialog = false;
     },
     resetNewEquipmentTypeDialog() {
       this.newEquipmentTypeName = null;
       this.$refs.newEquipmentTypeForm.reset();
+      this.getEquipmentTypes();
+      this.newEquipmentTypeDialog = false;
     }
   },
   data: () => ({
@@ -309,28 +329,7 @@ export default {
         userName: null
       }
     ],
-    equipmentTypes: [
-      {
-        text: "Dumbbell 5kg",
-        value: 1
-      },
-      {
-        text: "Dumbbell 10kg",
-        value: 2
-      },
-      {
-        text: "Dumbbell 15kg",
-        value: 3
-      },
-      {
-        text: "Dumbbell 20kg",
-        value: 4
-      },
-      {
-        text: "Dumbbell 25kg",
-        value: 5
-      }
-    ],
+    equipmentTypes: [],
     searchInput: {
       name: null,
       type: null,

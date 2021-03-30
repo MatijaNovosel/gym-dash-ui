@@ -165,6 +165,7 @@ export default {
     extendMembershipWarning: "Extend your membership to gain access",
     allAvailableUsers: "All available users",
     userDetails: "User details",
-    details: "Details"
+    details: "Details",
+    equipmentTypeCreated: "Equipment type created"
   }
 }

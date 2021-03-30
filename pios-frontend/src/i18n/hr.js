@@ -147,6 +147,7 @@ export default {
     extendMembershipWarning: "Produžite članstvo kako bi mogli pristupiti",
     allAvailableUsers: "Svi dostupni korisnici",
     userDetails: "Detalji korisnika",
-    details: "Detalji"
+    details: "Detalji",
+    equipmentTypeCreated: "Stvoren je novi tip opreme"
   }
 }

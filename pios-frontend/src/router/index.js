@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import routes from "./routes";
 import store from "../store/index";
 import jwt_decode from "jwt-decode";
+import RouteNames from "./routeNames";
 
 Vue.use(VueRouter);
 
@@ -21,7 +22,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (store.getters.user.id == null) {
       next({
-        name: 'login',
+        name: RouteNames.LOGIN,
         params: { nextUrl: to.fullPath }
       });
     } else {
@@ -35,7 +36,7 @@ router.beforeEach((to, from, next) => {
           token: null
         });
         next({
-          name: 'login',
+          name: RouteNames.LOGIN,
           params: { nextUrl: to.fullPath }
         });
       }
@@ -46,7 +47,7 @@ router.beforeEach((to, from, next) => {
       next();
     } else {
       next({
-        name: 'home'
+        name: RouteNames.HOME
       });
     }
   } else {

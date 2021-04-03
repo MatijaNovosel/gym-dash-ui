@@ -1,4 +1,4 @@
-# GymDash
+# GymDash UI
 
 GymDash frontend
 

@@ -208,10 +208,8 @@ export default {
         message: this.$t("successfullyExtendedMembership")
       });
 
-      this.payLoading = false;
-
+      this.resetPayDialog();
       this.getData();
-      this.payDialog = false;
     },
     formatMembershipDurationAmount(membershipDuration) {
       switch (membershipDuration) {

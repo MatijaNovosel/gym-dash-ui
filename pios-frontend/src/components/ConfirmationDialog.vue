@@ -6,7 +6,7 @@
           <span
             :style="{
               fontSize:
-                $vuetify.breakpoint.xs || $vuetify.breakpoint.sm
+                $vuetify.breakpoint.smAndDown
                   ? '15px'
                   : '20px'
             }"

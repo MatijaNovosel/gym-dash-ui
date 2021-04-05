@@ -2,7 +2,7 @@
   <v-row>
     <v-col cols="12">
       <v-tabs
-        :vertical="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
+        :vertical="$vuetify.breakpoint.smAndDown"
         v-model="tab"
       >
         <v-tab>

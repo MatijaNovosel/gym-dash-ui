@@ -28,11 +28,9 @@ export default {
         if (state.memberships && state.memberships.length != 0) {
           return isBefore(
             new Date(),
-            new Date(
-              calculateExpiresAtDate(
-                state.memberships[0].purchasedAt,
-                state.memberships[0].duration
-              )
+            calculateExpiresAtDate(
+              state.memberships[0].purchasedAt,
+              state.memberships[0].duration
             )
           );
         }

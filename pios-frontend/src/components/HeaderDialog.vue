@@ -10,7 +10,7 @@
         <span
           :style="{
             fontSize:
-              $vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? '15px' : '20px'
+              $vuetify.breakpoint.smAndDown ? '15px' : '20px'
           }"
         >
           {{ title }}

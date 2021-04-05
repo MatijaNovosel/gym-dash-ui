@@ -1,4 +1,5 @@
-# pios-frontend
-Frontend za PIOS projekt Tehničkog velučilišta u Zagrebu.
+# GymDash UI
+
+GymDash frontend
 
 Backend -> https://github.com/nevenjakopcic/pios-backend

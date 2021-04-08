@@ -155,6 +155,8 @@ export default {
     you: "Vi",
     equipmentUnassigned: "Rezervacija uklonjena",
     equipmentUnassignedFailed: "Došlo je do greške prilikom uklanjanja rezervacije",
-    noRecordsFound: "Nije pronađen ni jedan zapis"
+    noRecordsFound: "Nije pronađen ni jedan zapis",
+    equipmentCreatedFail: "Neuspješno stvaranje opreme",
+    equipmentTypeCreatedFail: "Neuspješno stvaranje novog tipa opreme"
   }
 }

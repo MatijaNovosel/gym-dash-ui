@@ -173,6 +173,8 @@ export default {
     you: "You",
     equipmentUnassigned: "Equipment unassigned",
     equipmentUnassignedFailed: "Failed to assign equipment",
-    noRecordsFound: "No records found"
+    noRecordsFound: "No records found",
+    equipmentCreatedFail: "Failed to create equipment",
+    equipmentTypeCreatedFail: "Failed to create equipment type"
   }
 }

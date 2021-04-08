@@ -53,7 +53,8 @@
       </v-row>
     </v-col>
     <v-col cols="12" class="text-center text-h5" v-if="equipment.length == 0">
-      <v-icon color="red" class="mr-2">mdi-alert</v-icon>{{ $t("noRecordsFound") }}
+      <v-icon color="red" class="mr-2">mdi-alert</v-icon
+      >{{ $t("noRecordsFound") }}
     </v-col>
     <template v-else v-for="eq in equipment">
       <v-col cols="12" md="3" :key="eq.id">
@@ -176,7 +177,7 @@
                   dense
                   item-text="name"
                   item-value="id"
-                  return-object
+                  :return-object="false"
                   :items="equipmentTypes"
                   v-model="newEquipment.type"
                   clearable
@@ -304,10 +305,8 @@ export default {
       }
     },
     canUnassignEquipment(userId) {
-      if (userId) {
-        if (this.user.id == userId || this.user.isAdmin) {
-          return true;
-        }
+      if (userId && (this.user.id == userId || this.isAdmin)) {
+        return true;
       }
       return false;
     },
@@ -323,27 +322,45 @@ export default {
       this.getEquipment();
     }, 750),
     async addNewEquipment() {
-      this.dialogLoading = true;
-      await EquipmentService.createEquipment({
-        name: this.newEquipment.name,
-        typeId: this.newEquipment.type
-      });
-      this.$emit("show-snackbar", {
-        color: "success",
-        message: this.$t("equipmentCreated")
-      });
-      this.dialogLoading = false;
-      this.resetNewEquipmentDialog();
+      try {
+        this.dialogLoading = true;
+        await EquipmentService.createEquipment({
+          name: this.newEquipment.name,
+          typeId: this.newEquipment.type
+        });
+        this.$emit("show-snackbar", {
+          color: "success",
+          message: this.$t("equipmentCreated")
+        });
+      } catch (e) {
+        this.$emit("show-snackbar", {
+          color: "error",
+          message: this.$t("equipmentCreatedFail")
+        });
+      } finally {
+        this.dialogLoading = false;
+        this.getEquipment();
+        this.resetNewEquipmentDialog();
+      }
     },
     async addNewEquipmentType() {
-      this.dialogLoading = true;
-      await EquipmentService.createEquipmentType(this.newEquipmentTypeName);
-      this.$emit("show-snackbar", {
-        color: "success",
-        message: this.$t("equipmentTypeCreated")
-      });
-      this.dialogLoading = false;
-      this.resetNewEquipmentTypeDialog();
+      try {
+        this.dialogLoading = true;
+        await EquipmentService.createEquipmentType(this.newEquipmentTypeName);
+        this.$emit("show-snackbar", {
+          color: "success",
+          message: this.$t("equipmentTypeCreated")
+        });
+      } catch(e) {
+        this.$emit("show-snackbar", {
+          color: "error",
+          message: this.$t("equipmentTypeCreatedFail")
+        });
+      } finally {
+        this.dialogLoading = false;
+        this.getEquipmentTypes();
+        this.resetNewEquipmentTypeDialog();
+      }
     },
     resetNewEquipmentDialog() {
       this.newEquipment.type = null;

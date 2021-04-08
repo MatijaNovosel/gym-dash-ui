@@ -23,6 +23,8 @@
             hide-details
             multiple
             :items="equipmentTypes"
+            :loading="equipmentTypesLoading"
+            :disabled="equipmentTypesLoading"
             dense
             v-model="searchInput.type"
           />
@@ -53,15 +55,15 @@
     </v-col>
     <template v-for="eq in equipment">
       <v-col cols="12" md="3" :key="eq.id">
-        <v-card outlined rounded="lg">
+        <v-card rounded="lg">
           <v-card-title>
             {{ eq.name }}
             <span class="grey--text text--darken-1 text-caption ml-1">
-              ({{ eq.type }})
+              ({{ eq.type.name }})
             </span>
           </v-card-title>
           <v-card-subtitle>
-            <template v-if="eq.userId == null">
+            <template v-if="eq.user == null">
               <v-icon color="green" class="mt-n1" small>
                 mdi-check-circle
               </v-icon>
@@ -72,7 +74,9 @@
                 mdi-close-circle
               </v-icon>
               {{ $t("inUseBy") }}:
-              <span class="font-weight-bold">{{ eq.userName }}</span>
+              <span class="font-weight-bold">
+                {{ eq.user.id == user.id ? $t("you") : eq.user.username }}
+              </span>
             </template>
           </v-card-subtitle>
           <v-divider />
@@ -80,18 +84,23 @@
             <v-btn
               v-if="!isAdmin"
               :disabled="
-                eq.userId && (eq.userId == user.id || eq.userId != user.id)
+                eq.user != null &&
+                  (eq.user.id == user.id || eq.user.id != user.id)
               "
               small
               color="success"
               class="mr-2"
+              @click="reserveEquipment(eq.id)"
             >
               {{ $t("reserve") }}
             </v-btn>
             <v-btn
-              :disabled="eq.userId != user.id || eq.userId == null"
+              :disabled="
+                !canUnassignEquipment(eq.user != null ? eq.user.id : null)
+              "
               small
               color="error"
+              @click="unassignEquipment(eq.id)"
             >
               {{ $t("removeReservation") }}
             </v-btn>
@@ -130,8 +139,8 @@
             </v-col>
             <v-col cols="12" class="text-center text-md-right mt-2">
               <v-btn
-                :loading="newEquipmentTypeLoading"
-                :disabled="newEquipmentTypeLoading"
+                :loading="dialogLoading"
+                :disabled="dialogLoading"
                 small
                 type="submit"
                 color="primary"
@@ -219,18 +228,20 @@
 import debounce from "debounce";
 import UserMixin from "../mixins/userMixin";
 import MembershipMixin from "../mixins/membershipMixin";
+import LoadingMixin from "../mixins/loadingMixin";
 import HeaderDialog from "../components/HeaderDialog";
 import routeNames from "../router/routeNames";
 import EquipmentService from "../services/equipmentService";
 
 export default {
   name: "Equipment",
-  mixins: [UserMixin, MembershipMixin],
+  mixins: [UserMixin, MembershipMixin, LoadingMixin],
   components: {
     HeaderDialog
   },
-  created() {
+  async created() {
     this.getEquipmentTypes();
+    this.getEquipment();
   },
   beforeRouteEnter(to, from, next) {
     next((vm) => {
@@ -246,26 +257,86 @@ export default {
     });
   },
   methods: {
+    async unassignEquipment(equipmentId) {
+      try {
+        await EquipmentService.unassignFromUser(equipmentId);
+        this.$emit("show-snackbar", {
+          color: "success",
+          message: this.$t("equipmentUnassigned")
+        });
+      } catch (e) {
+        this.$emit("show-snackbar", {
+          color: "error",
+          message: this.$t("equipmentUnassignedFailed")
+        });
+      } finally {
+        this.getEquipment();
+      }
+    },
+    async getEquipment() {
+      this.setLoading(true);
+      const {
+        data: { data }
+      } = await EquipmentService.getEquipment(null, null, null);
+      this.equipment = data;
+      this.setLoading(false);
+    },
+    async reserveEquipment(equipmentId) {
+      try {
+        await EquipmentService.assignToCurrentUser(equipmentId);
+        this.$emit("show-snackbar", {
+          color: "success",
+          message: this.$t("equipmentReserved")
+        });
+      } catch (e) {
+        this.$emit("show-snackbar", {
+          color: "error",
+          message: this.$t("equipmentReservedFailed")
+        });
+      } finally {
+        this.getEquipment();
+      }
+    },
+    canUnassignEquipment(userId) {
+      if (userId) {
+        if (this.user.id == userId || this.user.isAdmin) {
+          return true;
+        }
+      }
+      return false;
+    },
     async getEquipmentTypes() {
+      this.equipmentTypesLoading = true;
       const {
         data: { data }
       } = await EquipmentService.getAllTypes();
       this.equipmentTypes = data;
+      this.equipmentTypesLoading = false;
     },
     search: debounce(async function() {
       // Search equipment here
     }, 750),
-    addNewEquipment() {
-      //
+    async addNewEquipment() {
+      this.dialogLoading = true;
+      await EquipmentService.createEquipment({
+        name: this.newEquipment.name,
+        typeId: this.newEquipment.type
+      });
+      this.$emit("show-snackbar", {
+        color: "success",
+        message: this.$t("equipmentCreated")
+      });
+      this.dialogLoading = false;
+      this.resetNewEquipmentDialog();
     },
     async addNewEquipmentType() {
-      this.newEquipmentTypeLoading = true;
+      this.dialogLoading = true;
       await EquipmentService.createEquipmentType(this.newEquipmentTypeName);
       this.$emit("show-snackbar", {
         color: "success",
         message: this.$t("equipmentTypeCreated")
       });
-      this.newEquipmentTypeLoading = false;
+      this.dialogLoading = false;
       this.resetNewEquipmentTypeDialog();
     },
     resetNewEquipmentDialog() {
@@ -282,53 +353,18 @@ export default {
     }
   },
   data: () => ({
+    equipmentTypesLoading: false,
     newEquipment: {
       type: null,
       name: null
     },
     newEquipmentTypeName: null,
     newEquipmentLoading: false,
-    newEquipmentTypeLoading: false,
+    dialogLoading: false,
     newEquipmentDialog: false,
     newEquipmentTypeDialog: false,
     searching: false,
-    equipment: [
-      {
-        name: "Dumbbell #1",
-        type: "Dumbbell 5kg",
-        typeId: 1,
-        userId: 8,
-        userName: "usercina"
-      },
-      {
-        name: "Dumbbell #2",
-        type: "Dumbbell 10kg",
-        typeId: 2,
-        userId: 5,
-        userName: "user"
-      },
-      {
-        name: "Dumbbell #3",
-        type: "Dumbbell 15kg",
-        typeId: 3,
-        userId: null,
-        userName: null
-      },
-      {
-        name: "Dumbbell #4",
-        type: "Dumbbell 20kg",
-        typeId: 4,
-        userId: null,
-        userName: null
-      },
-      {
-        name: "Dumbbell #5",
-        type: "Dumbbell 25kg",
-        typeId: 5,
-        userId: null,
-        userName: null
-      }
-    ],
+    equipment: [],
     equipmentTypes: [],
     searchInput: {
       name: null,

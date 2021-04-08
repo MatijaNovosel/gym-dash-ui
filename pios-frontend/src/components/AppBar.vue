@@ -40,6 +40,12 @@
     </v-list-item>
     <v-spacer />
     <dark-mode-switch v-model="darkModeSwitchVal" @input="darkModeValChanged" />
+    <v-progress-linear
+      :active="loading"
+      :indeterminate="loading"
+      absolute
+      bottom
+    />
   </v-app-bar>
 </template>
 
@@ -50,13 +56,14 @@ import DarkModeMixin from "../mixins/darkModeMixin";
 import UserMixin from "../mixins/userMixin";
 import UserService from "../services/userService";
 import MembershipMixin from "../mixins/membershipMixin";
+import LoadingMixin from "../mixins/loadingMixin";
 
 export default {
   name: "app-bar",
   components: {
     DarkModeSwitch
   },
-  mixins: [DarkModeMixin, UserMixin, MembershipMixin],
+  mixins: [DarkModeMixin, UserMixin, MembershipMixin, LoadingMixin],
   methods: {
     darkModeValChanged: debounce(async function() {
       await UserService.updatePreference(this.darkModeSwitchVal, "HR");

@@ -166,6 +166,12 @@ export default {
     allAvailableUsers: "All available users",
     userDetails: "User details",
     details: "Details",
-    equipmentTypeCreated: "Equipment type created"
+    equipmentTypeCreated: "Equipment type created",
+    equipmentCreated: "Equipment created",
+    equipmentReserved: "Equipment reserved",
+    equipmentReservedFailed: "Equipment reservation failed",
+    you: "You",
+    equipmentUnassigned: "Equipment unassigned",
+    equipmentUnassignedFailed: "Failed to assign equipment"
   }
 }

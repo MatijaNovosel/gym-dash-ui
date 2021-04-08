@@ -148,6 +148,12 @@ export default {
     allAvailableUsers: "Svi dostupni korisnici",
     userDetails: "Detalji korisnika",
     details: "Detalji",
-    equipmentTypeCreated: "Stvoren je novi tip opreme"
+    equipmentTypeCreated: "Stvoren je novi tip opreme",
+    equipmentCreated: "Stvorena je nova oprema",
+    equipmentReserved: "Oprema uspješno rezervirana",
+    equipmentReservedFailed: "Opremu nije bilo moguće rezervirati",
+    you: "Vi",
+    equipmentUnassigned: "Rezervacija uklonjena",
+    equipmentUnassignedFailed: "Došlo je do greške prilikom uklanjanja rezervacije"
   }
 }

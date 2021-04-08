@@ -172,6 +172,7 @@ export default {
     equipmentReservedFailed: "Equipment reservation failed",
     you: "You",
     equipmentUnassigned: "Equipment unassigned",
-    equipmentUnassignedFailed: "Failed to assign equipment"
+    equipmentUnassignedFailed: "Failed to assign equipment",
+    noRecordsFound: "No records found"
   }
 }

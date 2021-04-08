@@ -154,6 +154,7 @@ export default {
     equipmentReservedFailed: "Opremu nije bilo moguće rezervirati",
     you: "Vi",
     equipmentUnassigned: "Rezervacija uklonjena",
-    equipmentUnassignedFailed: "Došlo je do greške prilikom uklanjanja rezervacije"
+    equipmentUnassignedFailed: "Došlo je do greške prilikom uklanjanja rezervacije",
+    noRecordsFound: "Nije pronađen ni jedan zapis"
   }
 }

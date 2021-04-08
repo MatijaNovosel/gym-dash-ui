@@ -4,7 +4,7 @@
       <v-row>
         <v-col cols="12" md="6">
           <v-text-field
-            @change="search"
+            @input="search"
             outlined
             hide-details
             :label="$t('name')"
@@ -14,14 +14,13 @@
         </v-col>
         <v-col cols="12" md="6">
           <v-select
-            @change="search"
+            @input="search"
             item-text="name"
             item-value="id"
             :return-object="false"
             outlined
             :label="$t('equipmentType')"
             hide-details
-            multiple
             :items="equipmentTypes"
             :loading="equipmentTypesLoading"
             :disabled="equipmentTypesLoading"
@@ -53,7 +52,10 @@
         </v-col>
       </v-row>
     </v-col>
-    <template v-for="eq in equipment">
+    <v-col cols="12" class="text-center text-h5" v-if="equipment.length == 0">
+      <v-icon color="red" class="mr-2">mdi-alert</v-icon>{{ $t("noRecordsFound") }}
+    </v-col>
+    <template v-else v-for="eq in equipment">
       <v-col cols="12" md="3" :key="eq.id">
         <v-card rounded="lg">
           <v-card-title>
@@ -277,7 +279,11 @@ export default {
       this.setLoading(true);
       const {
         data: { data }
-      } = await EquipmentService.getEquipment(null, null, null);
+      } = await EquipmentService.getEquipment(
+        this.searchInput.name,
+        this.searchInput.onlyMyEquipment,
+        this.searchInput.type
+      );
       this.equipment = data;
       this.setLoading(false);
     },
@@ -314,7 +320,7 @@ export default {
       this.equipmentTypesLoading = false;
     },
     search: debounce(async function() {
-      // Search equipment here
+      this.getEquipment();
     }, 750),
     async addNewEquipment() {
       this.dialogLoading = true;

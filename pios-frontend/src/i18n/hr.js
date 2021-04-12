@@ -1,5 +1,7 @@
 export default {
   hr: {
+    type: "Tip",
+    equipment: "Oprema",
     to: "Od",
     from: "Do",
     reservationDeleted: "Rezervacija izbrisana",

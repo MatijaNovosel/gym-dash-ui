@@ -1,5 +1,7 @@
 export default {
   en: {
+    type: "Type",
+    equipment: "Equipment",
     to: "To",
     from: "From",
     reservationDeleted: "Reservation deleted",

@@ -106,7 +106,7 @@
                 )
               }}
             </v-card-subtitle>
-            <template v-if="user.id == selectedEvent.userId || user.isAdmin">
+            <template v-if="user.id == selectedEvent.userId || isAdmin">
               <v-divider />
               <v-card-actions class="justify-center justify-md-end py-4">
                 <v-btn

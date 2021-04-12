@@ -58,6 +58,9 @@ export default {
     event: "input"
   },
   props: {
+    clear: {
+      type: Boolean
+    },
     value: {
       type: [Date, String],
       default: null
@@ -122,6 +125,13 @@ export default {
       this.display = false;
       this.dateTime = value;
       this.$emit("input", this.dateTimeFormatted);
+    }
+  },
+  watch: {
+    clear() {
+      this.dateTime = null;
+      this.date = null;
+      this.time = null;
     }
   }
 };

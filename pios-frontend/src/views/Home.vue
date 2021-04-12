@@ -83,7 +83,7 @@
           :activator="selectedElement"
           offset-x
           content-class="elevation-1 rounded-lg"
-          min-width="500px"
+          :min-width="width"
         >
           <v-card>
             <v-card-title>
@@ -159,6 +159,7 @@
                 v-slot="{ errors, valid, untouched, required, failed }"
               >
                 <date-time-picker
+                  :clear="clearPickers"
                   :label="$t('from')"
                   :required="required"
                   :error-messages="errors"
@@ -179,6 +180,7 @@
                 v-slot="{ errors, valid, untouched, required, failed }"
               >
                 <date-time-picker
+                  :clear="clearPickers"
                   :label="$t('to')"
                   :required="required"
                   :error-messages="errors"
@@ -241,9 +243,26 @@ export default {
         week: this.$t("week"),
         day: this.$t("day")
       };
+    },
+    width() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          return 300;
+        case "sm":
+          return 400;
+        case "md":
+          return 500;
+        case "lg":
+          return 600;
+        case "xl":
+          return 700;
+        default:
+          return 500;
+      }
     }
   },
   data: () => ({
+    clearPickers: false,
     newReservationLoading: false,
     newReservationDialog: false,
     newReservation: {
@@ -309,6 +328,7 @@ export default {
       this.setLoading(false);
     },
     resetNewReservationDialog() {
+      this.clearPickers = !this.clearPickers;
       this.newReservation.description = null;
       this.newReservation.from = null;
       this.newReservation.to = null;

@@ -96,7 +96,7 @@ export default {
     inUseBy: "Koristi je",
     preferencesUpdated: "Postavke ažurirane",
     displayType: "Tip prikaza",
-    noMembershipsFound: "Nije pronađeno ni jedno članstvo",
+    noMembershipsFound: "Nije pronađeno članstvo",
     $vuetify: {
       carousel: {
         next: "",

@@ -7,6 +7,7 @@ import i18n from './i18n/index';
 import './registerServiceWorker';
 import './validators/index';
 import './plugins/axios';
+import './filters';
 import './assets/site.css';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import RequiredIcon from "./components/RequiredIcon.vue";

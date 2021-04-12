@@ -1,5 +1,10 @@
 export default {
   en: {
+    to: "To",
+    from: "From",
+    reservationDeleted: "Reservation deleted",
+    newReservationCreated: "New reservation created",
+    newReservationDescription: "New reservation description",
     hello: "Hello world",
     usernameOrEmail: "Username or email",
     password: "Password",

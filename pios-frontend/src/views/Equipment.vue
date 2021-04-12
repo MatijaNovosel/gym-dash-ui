@@ -52,9 +52,9 @@
         </v-col>
       </v-row>
     </v-col>
-    <v-col cols="12" class="text-center text-h5" v-if="equipment.length == 0">
-      <v-icon color="red" class="mr-2">mdi-alert</v-icon
-      >{{ $t("noRecordsFound") }}
+    <v-col cols="12" class="text-center text-h5" v-if="equipment.length == 0 && !loading">
+      <v-icon color="red" class="mr-2">mdi-alert</v-icon>
+      {{ $t("noRecordsFound") }}
     </v-col>
     <template v-else v-for="eq in equipment">
       <v-col cols="12" md="3" :key="eq.id">

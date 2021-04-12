@@ -64,3 +64,7 @@ export function calculateExpiresAtDate(date, membershipDuration) {
       return add(new Date(date), { years: 1 });
   }
 }
+
+export function capitalize(s) {
+  return s[0].toUpperCase() + s.slice(1);
+}

@@ -1,5 +1,10 @@
 export default {
   hr: {
+    to: "Od",
+    from: "Do",
+    reservationDeleted: "Rezervacija izbrisana",
+    newReservationCreated: "Stvorena je nova rezervacija",
+    newReservationDescription: "Opis nove rezervacije",
     hello: "Hello world",
     usernameOrEmail: "Korisničko ime ili lozinka",
     password: "Lozinka",

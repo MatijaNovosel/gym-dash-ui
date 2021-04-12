@@ -1,51 +1,6 @@
 <template>
   <v-row>
     <v-col cols="12" class="text-center mt-4">
-      <v-menu :close-on-content-click="false" content-class="elevation-2">
-        <template #activator="{ on, attrs }">
-          <v-btn
-            fab
-            depressed
-            x-small
-            color="primary"
-            class="top-absolute"
-            v-bind="attrs"
-            v-on="on"
-          >
-            <v-icon>mdi-dots-horizontal</v-icon>
-          </v-btn>
-        </template>
-        <v-list dense>
-          <v-list-group>
-            <template #activator>
-              <v-list-item-content>
-                <v-list-item-title>
-                  {{ $t("displayType") }}
-                </v-list-item-title>
-              </v-list-item-content>
-            </template>
-            <v-list-item @click="type = 'day'">
-              <v-list-item-title>{{ $t("day") }}</v-list-item-title>
-            </v-list-item>
-            <v-list-item @click="type = 'week'">
-              <v-list-item-title>{{ $t("week") }}</v-list-item-title>
-            </v-list-item>
-            <v-list-item @click="type = 'month'">
-              <v-list-item-title>{{ $t("month") }}</v-list-item-title>
-            </v-list-item>
-          </v-list-group>
-          <v-list-item @click="setToday">
-            <v-list-item-title>{{ $t("today") }}</v-list-item-title>
-          </v-list-item>
-          <v-list-item
-            @click="openNewReservationDialog"
-            v-if="!isAdmin"
-            :disabled="!validMembership"
-          >
-            <v-list-item-title>{{ $t("newReservation") }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
       <v-btn icon color="grey darken-2" @click="prev">
         <v-icon>
           mdi-chevron-left
@@ -59,6 +14,44 @@
           mdi-chevron-right
         </v-icon>
       </v-btn>
+      <v-menu :close-on-content-click="false" content-class="elevation-2">
+        <template #activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on">
+            <v-icon>mdi-dots-horizontal</v-icon>
+          </v-btn>
+        </template>
+        <v-list dense>
+          <v-list-group>
+            <template #activator>
+              <v-icon small class="pr-3">mdi-calendar</v-icon>
+              <v-list-item-title>
+                {{ $t("displayType") }}
+              </v-list-item-title>
+            </template>
+            <v-list-item @click="type = 'day'">
+              <v-list-item-title>{{ $t("day") }}</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="type = 'week'">
+              <v-list-item-title>{{ $t("week") }}</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="type = 'month'">
+              <v-list-item-title>{{ $t("month") }}</v-list-item-title>
+            </v-list-item>
+          </v-list-group>
+          <v-list-item @click="setToday">
+            <v-icon small class="pr-3">mdi-calendar-plus</v-icon>
+            <v-list-item-title>{{ $t("today") }}</v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            @click="openNewReservationDialog"
+            v-if="!isAdmin"
+            :disabled="!validMembership"
+          >
+            <v-icon small class="pr-3">mdi-plus</v-icon>
+            <v-list-item-title>{{ $t("newReservation") }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-col>
     <v-col cols="12">
       <v-sheet height="600">

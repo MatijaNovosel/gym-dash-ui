@@ -3,6 +3,7 @@
     dense
     :headers="headers"
     :items="items"
+    :loading="loading"
     :items-per-page="5"
     class="elevation-2"
   >
@@ -69,7 +70,8 @@ import { dummyPdfBase64 } from "../constants/index";
 export default {
   name: "membership-table",
   props: {
-    items: Array
+    items: Array,
+    loading: Boolean
   },
   methods: {
     add,

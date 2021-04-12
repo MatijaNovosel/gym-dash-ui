@@ -19,7 +19,7 @@ export default {
     return await axios.post(`/equipment/assign/${equipmentId}`);
   },
   async unassignFromUser(equipmentId) {
-    return await axios.post(`/equipment/unassign/${equipmentId}`);
+    return await axios.delete(`/equipment/unassign/${equipmentId}`);
   },
   async getEquipment(name, showOnlyUserEquipment, type) {
     return await axios.get("/equipment", {

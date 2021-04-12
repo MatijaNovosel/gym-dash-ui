@@ -63,7 +63,7 @@
       {{ $t("previousMembershipPurchases") }}
     </v-col>
     <v-col cols="12" class="pt-0">
-      <membership-table :items="memberships" />
+      <membership-table :loading="loading" :items="memberships" />
     </v-col>
     <confirmation-dialog
       @no="dialog = false"

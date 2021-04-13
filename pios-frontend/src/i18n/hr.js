@@ -2,8 +2,8 @@ export default {
   hr: {
     type: "Tip",
     equipment: "Oprema",
-    to: "Od",
-    from: "Do",
+    to: "Do",
+    from: "Od",
     reservationDeleted: "Rezervacija izbrisana",
     newReservationCreated: "Stvorena je nova rezervacija",
     newReservationDescription: "Opis nove rezervacije",

@@ -132,6 +132,7 @@
                 v-slot="{ errors, valid, untouched, required, failed }"
               >
                 <v-text-field
+                  id="newReservationDescription"
                   v-model="newReservation.description"
                   :error-messages="errors"
                   :hide-details="valid || (untouched && !failed)"
@@ -158,6 +159,7 @@
                   :error-messages="errors"
                   :text-field-props="{
                     dense: true,
+                    id: 'from',
                     'prepend-icon': 'mdi-calendar',
                     'hide-details': valid || (untouched && !failed)
                   }"
@@ -179,6 +181,7 @@
                   :error-messages="errors"
                   :text-field-props="{
                     dense: true,
+                    id: 'to',
                     'prepend-icon': 'mdi-calendar',
                     'hide-details': valid || (untouched && !failed)
                   }"

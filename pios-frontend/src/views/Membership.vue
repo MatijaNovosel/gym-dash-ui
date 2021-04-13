@@ -88,6 +88,7 @@
                 v-slot="{ errors, valid, untouched, required, failed }"
               >
                 <v-select
+                  id="membershipDuration"
                   :error-messages="errors"
                   :hide-details="valid || (untouched && !failed)"
                   dense
@@ -107,6 +108,7 @@
             </v-col>
             <v-col cols="12">
               <v-text-field
+                id="membershipDurationAmount"
                 dense
                 hide-details
                 :disabled="!membershipDuration"

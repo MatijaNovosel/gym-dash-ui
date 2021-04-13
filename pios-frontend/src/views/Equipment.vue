@@ -4,6 +4,7 @@
       <v-row>
         <v-col cols="12" md="6">
           <v-text-field
+            id="name"
             @input="search"
             outlined
             hide-details
@@ -14,6 +15,7 @@
         </v-col>
         <v-col cols="12" md="6">
           <v-select
+            id="equipmentType"
             @input="search"
             item-text="name"
             item-value="id"
@@ -30,6 +32,7 @@
         </v-col>
         <v-col cols="12" v-if="!isAdmin">
           <v-switch
+            id="onlyMyEquipmentSwitch"
             @change="search"
             v-model="searchInput.onlyMyEquipment"
             inset
@@ -128,6 +131,7 @@
                 v-slot="{ errors, valid, untouched, required, failed }"
               >
                 <v-text-field
+                  id="newEquipmentTypeName"
                   v-model="newEquipmentTypeName"
                   :error-messages="errors"
                   :hide-details="valid || (untouched && !failed)"
@@ -172,6 +176,7 @@
                 v-slot="{ errors, valid, untouched, required, failed }"
               >
                 <v-select
+                  id="newEquipmentType"
                   :error-messages="errors"
                   :hide-details="valid || (untouched && !failed)"
                   dense
@@ -197,6 +202,7 @@
                 v-slot="{ errors, valid, untouched, required, failed }"
               >
                 <v-text-field
+                  id="newEquipmentName"
                   v-model="newEquipment.name"
                   :error-messages="errors"
                   :hide-details="valid || (untouched && !failed)"

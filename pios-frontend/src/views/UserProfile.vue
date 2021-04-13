@@ -26,6 +26,7 @@
               <v-row>
                 <v-col cols="12">
                   <v-text-field
+                    id="username"
                     dense
                     outlined
                     disabled
@@ -36,6 +37,7 @@
                 </v-col>
                 <v-col cols="12">
                   <v-text-field
+                    id="email"
                     dense
                     outlined
                     disabled
@@ -53,6 +55,7 @@
                     v-slot="{ errors, valid, untouched, required, failed }"
                   >
                     <v-text-field
+                      id="newPassword"
                       :loading="loading"
                       :disabled="loading"
                       outlined
@@ -91,6 +94,7 @@
               <v-row>
                 <v-col cols="12">
                   <v-select
+                    id="locale"
                     item-text="text"
                     item-value="value"
                     return-object

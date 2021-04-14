@@ -4,7 +4,7 @@
       <drawer @show-snackbar="showSnackbar" v-model="drawer" />
       <app-bar @toggle-drawer="drawer = !drawer" />
     </template>
-    <v-main :class="{ 'grey lighten-3': !shouldShowUi, 'mx-10': drawer }">
+    <v-main :class="{ 'grey lighten-3': !shouldShowUi, 'mx-10': drawer && $vuetify.breakpoint.mdAndUp }">
       <v-container :class="{ 'pa-0 ma-0': !shouldShowUi }">
         <router-view @show-snackbar="showSnackbar" />
       </v-container>

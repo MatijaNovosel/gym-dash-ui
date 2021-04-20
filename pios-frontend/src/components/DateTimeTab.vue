@@ -26,6 +26,7 @@
         v-bind="timePickerProps"
         full-width
         ampm-in-title
+        format="24hr"
         @change="timePickerChanged"
       />
     </v-tab-item>

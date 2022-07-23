@@ -8,3 +8,8 @@
 </p>
 
 ![pios-frontend web app_equipment](https://user-images.githubusercontent.com/36193643/113634293-cde77880-966e-11eb-8665-03e80da0490f.png)
+
+## 🔨 Built With
+
+- [Vue 2](https://vuejs.org/)
+- [Vuetify](https://vuetifyjs.com/)

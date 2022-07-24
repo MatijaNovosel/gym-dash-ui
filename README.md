@@ -1,7 +1,6 @@
 <h1 align=center>GymDash UI</h1>
 <p align=center>
   Frontend for the GymDash gym management web application, made as a group task for a college course.
-  Features gym equipment reservations, membership purchases and calendar reservations for exercises with a user specific authentication system.
 </p>
 <p align="center">
   💾 <a href="https://github.com/nevenjakopcic/pios-backend"> Backend </a>
@@ -13,3 +12,10 @@
 
 - [Vue 2](https://vuejs.org/)
 - [Vuetify](https://vuetifyjs.com/)
+
+## 🚀 Features
+
+- Gym equipment reservations
+- Membership purchases
+- Calendar reservations for exercises
+- User specific authentication system
